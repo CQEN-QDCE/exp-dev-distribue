@@ -1,0 +1,27 @@
+@startuml System Context Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(mainteneur, "Mainteneur", "Mainteneur de la coquille et des services aux contributeurs")
+Person(contributeur, "Contributeur", "Contributeur de services")
+Person(utilisateur, "Utilisateur", "Utilisateur des services contribué")
+
+
+System(depot, "Dépot de code source", "Le dépôt de code source de l'applicaton distribuée")
+System(coquille, "Application coquille", "L'application coquille")
+System(service, "Service contribué", "Un service rendu disponible par l'application coquille")
+System(registre, "Registre des services", "Registre des services disponibles")
+System(test, "Outil de test", "Outil de test d'intégration de services contribués")
+
+Rel(contributeur, depot, "Consulte la documentation, récupère les outils de développement, communique avec l'équipe produit", "HTTPS")
+Rel(contributeur, registre, "Publie son service", "HTTPS")
+Rel(contributeur, test, "Teste son service", "HTTPS")
+
+Rel(utilisateur, coquille, "S'authentifie, accède un service", "HTTPS")
+Rel(utilisateur, service, "Complète une transaction", "HTTPS")
+
+Rel(coquille, service, "Rend disponible", "Web Component")
+Rel(coquille, registre, "Récupère la liste des services", "Web Component")
+
+Rel(mainteneur, depot, "Publie le code source et la documentation, prend contact avec les contributeurs", "Git")
+
+@enduml
