@@ -1,0 +1,91 @@
+@startuml System Context Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(mainteneur, "Mainteneur", "Mainteneur de la coquille et des services aux contributeurs")
+Person(contributeur, "Contributeur", "Contributeur de services")
+Person(utilisateur, "Utilisateur", "Utilisateur des services contribué")
+
+
+System_Boundary(depot, "Dépot de code source") {
+    Container(github_code, "Github Code", "Dépôt de code source Git")
+    Container(github_pages, "Github Pages", "Site web static")
+    Container(github_issues, "Github Issues", "Outil rapport de bogues")
+    Container(github_discussion, "Github Discussions", "Forum de discussion")
+    Container(github_actions, "Github Actions", "Engin de pipeline")
+    Container(github_releases, "Github Releases", "Dépôt de binaires")
+}
+
+System_Boundary(coquille, "Application coquille") {
+    Container(coquille_pwa, "Application PWA", "")
+    Container(coquille_mobile, "Application Mobile", "")
+}
+
+System_Boundary(service, "Service contribué") {
+    Container(service_angular, "Service Exemple 1", "")
+    Container(pipeline_angular, "Pipeline CI/CD du Service Exemple 1", "")
+
+    Container(service_blazer, "Service Exemple 2", "")
+    Container(service_wasm, "Service Exemple 3", "")
+}
+
+System_Boundary(registre, "Registre des services") {
+    Container(api_developper, "API Developpeur", "")
+    Container(api_registre, "API Registre", "")
+    Container(auth_registre, "Service identité du registre", "")
+}
+
+System_Boundary(test, "Outil de test") {
+    Container(app_test, "Outil de test en ligne", "")
+    Container(api_test, "API de test de web component", "")
+    Container(test1, "Test 1", "")
+    Container(test2, "Test 2", "")
+}
+
+Container(auth_sag, "Service authentification gouvernemental", "")
+
+Rel(contributeur, github_pages, "Consulte la documentation", "HTTPS")
+Rel(contributeur, github_releases, "Récupère les outils de développement", "HTTPS")
+Rel(contributeur, github_discussion, "Communique avec l'équipe produit", "HTTPS")
+Rel(contributeur, github_issues, "Rapporte des bogues, demande des fonctionalités", "HTTPS")
+
+Rel(app_test, api_test, "Interface", "HTTPS")
+Rel(api_test, test1, "Execute", "HTTPS")
+Rel(api_test, test2, "Execute", "HTTPS")
+
+
+Rel(pipeline_angular, api_developper, "Valide pour publication", "HTTPS")
+Rel(api_developper, pipeline_angular, "Soumet résultat validation", "HTTPS")
+Rel(pipeline_angular, api_developper, "Publie un service", "HTTPS")
+
+Rel(api_developper, api_test, "Valide pour publication", "HTTPS")
+Rel(api_developper, auth_registre, "Authentifie l'appel", "HTTPS")
+Rel(api_registre, auth_registre, "Authentifie l'appel", "HTTPS")
+
+Rel(contributeur, app_test, "Teste son service", "HTTPS")
+Rel(contributeur, pipeline_angular, "Déclenche la publication", "HTTPS")
+
+
+Rel(utilisateur, coquille_pwa, "S'authentifie", "HTTPS")
+Rel(utilisateur, coquille_mobile, "S'authentifie", "HTTPS")
+
+Rel(utilisateur, service_angular, "Complète une transaction", "HTTPS")
+Rel(utilisateur, service_blazer, "Complète une transaction", "HTTPS")
+Rel(utilisateur, service_wasm, "Complète une transaction", "HTTPS")
+
+Rel(coquille_pwa, service_angular, "Rend disponible", "Web Component")
+Rel(coquille_pwa, service_blazer, "Rend disponible", "Web Component")
+Rel(coquille_pwa, service_wasm, "Rend disponible", "Web Component")
+Rel(coquille_pwa, api_registre, "Récupère la liste des services", "HTTPS")
+Rel(coquille_pwa, auth_sag, "Authentifie un usager", "HTTPS")
+
+Rel(coquille_mobile, coquille_pwa, "Rend disponible sur mobile", "Web Component")
+
+Rel(service_angular, auth_sag, "Échange jeton authentification", "HTTPS")
+Rel(service_blazer, auth_sag, "Échange jeton authentification", "HTTPS")
+Rel(service_wasm, auth_sag, "Échange jeton authentification", "HTTPS")
+
+
+Rel(mainteneur, github_code, "Publie le code source et la documentation", "Git")
+Rel(mainteneur, github_discussion, "Prend contact avec les contributeurs", "Git")
+
+@enduml
