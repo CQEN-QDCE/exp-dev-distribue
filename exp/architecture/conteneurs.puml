@@ -21,11 +21,11 @@ System_Boundary(coquille, "Application coquille") {
 }
 
 System_Boundary(service, "Service contribué") {
-    Container(service_angular, "Service Exemple 1", "")
+    Container(service_angular, "Service Exemple 1", "Angular")
     Container(pipeline_angular, "Pipeline CI/CD du Service Exemple 1", "")
 
-    Container(service_blazer, "Service Exemple 2", "")
-    Container(service_wasm, "Service Exemple 3", "")
+    Container(service_blazer, "Service Exemple 2", "Blazer")
+    Container(service_wasm, "Service Exemple 3", "WASM")
 }
 
 System_Boundary(registre, "Registre des services") {

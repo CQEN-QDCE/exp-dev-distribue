@@ -45,3 +45,11 @@ Comment gère-t-on la publication des changements dans un modèle de développem
 ### Citoyen effectue une transaction dans un service via un navigateur
 
 ### Citoyen effectue une transaction dans un service via un appareil mobile
+
+## Architecture de la solution
+
+### Systèmes
+![Diagramme de système](https://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/CQEN-QDCE/exp-dev-distribue/main/exp/architecture/systeme.puml)
+
+### Conteneurs
+![Diagramme de conteneurs](https://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/CQEN-QDCE/exp-dev-distribue/main/exp/architecture/conteneurs.puml)
