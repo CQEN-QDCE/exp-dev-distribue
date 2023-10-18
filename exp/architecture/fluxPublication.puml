@@ -1,0 +1,44 @@
+@startuml
+|Contributeur|
+start
+partition "**process** Développer son composant web" {
+repeat :Coder son composant;
+:Construire son composant;
+:Analyser statiquement le composant;
+:Tester le composant;
+repeat while (présence d'erreur?)is (yes) not (no)
+}
+partition "**process** Integrer son composant web à la coquille" {
+    :Obtenir la version de la coquille;
+    :Intégrer son composant à la coquille;
+    :Obtenir l'outil de test;
+    :Tester l'intégration du composant;
+}
+partition "**process** Publier son composant" {
+    if (possède autorisation registre?) then (non)
+    :Obtenir l'autorisation du registre des composants;
+    endif
+    :Publier son composant dans le registre;
+}
+|Mainteneur|
+partition "**process** Valider le composant et le système" {
+    :Intégrer son composant à la coquille;
+    :Tester l'intégration du composant;
+    :Tester la solution;
+}
+if (présence d'erreur?) then (oui)
+:Notifier à l'OP les erreurs;
+|Contributeur|
+:Prendre en charge les erreurs;
+end
+else (non)
+|Mainteneur|
+:Approuver la version du composant publié;
+endif
+|Contributeur|
+:Déploiement en prod du composant;
+:Notifier mainteneur de la présence en prod;
+|Mainteneur|
+:Activer la version en prod;
+ end
+@enduml
