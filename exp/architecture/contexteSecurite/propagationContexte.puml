@@ -1,0 +1,111 @@
+@startuml Propagation du contexte de sécurité
+
+autonumber 1
+skinparam BoxPadding 60
+skinparam Padding 5
+skinparam ParticipantPadding 60
+
+participant "Utilisateur" as user
+participant "Carrefour" as carrefour
+database "Session\nstorage" as carrefour_storage
+participant "Service Auth" as svc_auth
+participant "Service Manifestes" as svc_manifests
+database "Service Auth \nSession cookie" as sa_cookie
+participant "Keycloak (SAG)" as oidc
+database "Session OIDC \ncookie" as oidc_cookie
+participant "WebComponent" as op_wc
+participant "Api" as op_api
+
+activate user
+    user -> carrefour : Accès au carrefour
+    activate carrefour
+        carrefour --x carrefour_storage : Vérifier si utilisateur \nn'est pas authentifié\n(ne devrait pas avoir de jeton stocké)
+        user <-- carrefour : Redirect vers service authentification
+    deactivate carrefour
+    user -> svc_auth : Accès au service d'authentification
+deactivate user
+
+activate svc_auth
+    svc_auth --x sa_cookie : Lire cookie session \n(aucun cookie)
+    svc_auth <--> svc_auth : Confirmer que l'utilisateur \nest pas authentifié
+    user <-- svc_auth : Rediection vers authentification (OIDC: KC/SAG)
+deactivate svc_auth
+
+activate user
+    note right of user : http://keycloak.qc.ca/auth?client-id=carrefour&scopes=...&state=...&nonce=...
+    user -> oidc : Accès au fournisseur OIDC (KC/SAG)
+deactivate user
+
+activate oidc
+    oidc --x oidc_cookie : Lire cookie session \n(aucun cookie)
+    oidc <--> oidc : Confirmer qu'aucune session n'est active
+    user <-- oidc : Page d'authentification
+    activate user
+        note right of user : Selon le fournisseur OIDC, peut y avoir plus qu'une page
+        user -> oidc : Saisie des information d'authentification
+    deactivate user
+    oidc <--> oidc : Démarrer session
+    oidc --> oidc_cookie : Stocker session
+    user <-- oidc : Redirect vers Service d,authentification
+deactivate oidc
+
+activate user
+    note right of user : https://service-auth.qc.ca/auth_callback?token=...
+    user -> svc_auth : Accéder au Service d'authentification
+    activate svc_auth
+        user <-- svc_auth : Redirection au carrefour
+    deactivate svc_auth
+    user -> carrefour :
+deactivate user
+
+activate carrefour 
+    carrefour -> svc_auth : Fetch les tokens pour l'utilisateur
+    activate svc_auth
+        note right : https://service-auth.qc.ca/auth?no_auth=true \ncredentials: true (cookie headers)
+        carrefour <-- svc_auth : Retourner les tokens
+        note left
+            {
+                token: "...",
+                id_token: "..."
+            }
+        endnote 
+        carrefour --> carrefour_storage : Stocke les jetons
+        user <-- carrefour : Afficher le carrefour avec contexte
+        activate user
+            user -> carrefour : Utilisateur navigue vers le composant\nde l'organisme désiré
+        deactivate user
+        carrefour -> svc_auth : Demande un jeton pour le composant
+        note right : https://service-auth.qc.ca/auth/token?no_auth=true&client-id=[...]&token=[...]
+        svc_auth -> oidc : Demande un jeton pour le client_id de l'organisme \nvia //token exchange//
+        activate oidc
+            note right : http://keycloak.qc.ca/token
+            svc_auth <-- oidc : Génère un jeton pour le client_id désiré
+        deactivate oidc
+        carrefour <-- svc_auth
+    deactivate svc_auth
+    carrefour -> op_wc : Instancie le composant de l'organisme en fournissant le token obtenu par //token exchange//
+deactivate carrefour
+
+activate op_wc
+    op_wc -> op_api : Le composant appelle son API \net fourni le token dans le header
+    note right
+        http://api.op.qc.ca/api/[...]
+        headers : **Authentication = "bearer [token]"**
+    endnote
+    activate op_api
+        op_api <--> op_api : Validation des CORS
+        op_wc <-- op_api : Retourner les données demandées
+    deactivate op_api
+    note left
+        {
+            valeur_A : "....",
+            valeur_B : "....",
+            etc....
+        }
+    endnote
+    user <-- op_wc : Afficher le contenu sécurisé
+deactivate op_wc
+
+activate user
+
+@enduml 
