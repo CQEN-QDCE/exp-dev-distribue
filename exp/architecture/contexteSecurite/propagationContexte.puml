@@ -6,95 +6,136 @@ skinparam Padding 5
 skinparam ParticipantPadding 60
 
 participant "Utilisateur" as user
-participant "Carrefour" as carrefour
-database "Session\nstorage" as carrefour_storage
-participant "Service Auth" as svc_auth
-participant "Service Manifestes" as svc_manifests
+box Mainteneur
+participant "Coquille" as coquille
+database "Session\nstorage" as coquille_storage
+participant "Service d'authentification" as svc_auth
 database "Service Auth \nSession cookie" as sa_cookie
-participant "Keycloak (SAG)" as oidc
+participant "Manifestes" as svc_manifests
+end box
+box Fournisseur d'authentification
+participant "Service OIDC" as oidc
 database "Session OIDC \ncookie" as oidc_cookie
-participant "WebComponent" as op_wc
-participant "Api" as op_api
+end box
+
+box Micro-frontend du contributeur
+participant "Web Component (UI)" as op_wc
+participant "Service (API)" as op_api
+end box
 
 activate user
-    user -> carrefour : Accès au carrefour
-    activate carrefour
-        carrefour --x carrefour_storage : Vérifier si utilisateur \nn'est pas authentifié\n(ne devrait pas avoir de jeton stocké)
-        user <-- carrefour : Redirect vers service authentification
-    deactivate carrefour
-    user -> svc_auth : Accès au service d'authentification
+    user -> coquille : Accède à la coquille
+    note right : https://coquille.org/
+    activate coquille
+        coquille --x coquille_storage : Vérifier si utilisateur \nn'est pas authentifié\n(aucun jeton ne devrait\nêtre stocké)
+        user <-- coquille : Redirection vers le service d'authentification
+    deactivate coquille
+    user -> svc_auth : Accède au service d'authentification
 deactivate user
 
 activate svc_auth
-    svc_auth --x sa_cookie : Lire cookie session \n(aucun cookie)
-    svc_auth <--> svc_auth : Confirmer que l'utilisateur \nest pas authentifié
-    user <-- svc_auth : Rediection vers authentification (OIDC: KC/SAG)
+    svc_auth --x sa_cookie : Lit le cookie de session \n(aucun cookie)
+    svc_auth <--> svc_auth : Confirme que l'utilisateur \nn'est pas authentifié
+    user <-- svc_auth : Rediection vers le fournisseur d'authentification (OIDC: KC/SAG)
 deactivate svc_auth
 
 activate user
-    note right of user : http://keycloak.qc.ca/auth?client-id=carrefour&scopes=...&state=...&nonce=...
-    user -> oidc : Accès au fournisseur OIDC (KC/SAG)
+    note right of user : https://fournisseur-oidc.org/auth?client-id=coquille&scopes=...&state=...&nonce=...
+    user -> oidc : Accès au fournisseur d'authetification
 deactivate user
 
 activate oidc
-    oidc --x oidc_cookie : Lire cookie session \n(aucun cookie)
-    oidc <--> oidc : Confirmer qu'aucune session n'est active
-    user <-- oidc : Page d'authentification
+    oidc --x oidc_cookie : Lit le cookie de session \n(aucun cookie)
+    oidc <--> oidc : Confirme qu'aucune session n'est active
+    user <-- oidc : Affiche la page d'authentification
     activate user
-        note right of user : Selon le fournisseur OIDC, peut y avoir plus qu'une page
-        user -> oidc : Saisie des information d'authentification
+        note right of user : Selon le fournisseur OIDC, il pourrait y avoir plus d'une page
+        user -> oidc : Saisit les informations d'authentification
     deactivate user
-    oidc <--> oidc : Démarrer session
-    oidc --> oidc_cookie : Stocker session
-    user <-- oidc : Redirect vers Service d,authentification
+    oidc <--> oidc : Démarre une session OIDC
+    oidc --> oidc_cookie : Stocke la session dans un cookie\n(et aussi dans la base de données)
+    user <-- oidc : Redirige vers le Service d'authentification
 deactivate oidc
 
 activate user
-    note right of user : https://service-auth.qc.ca/auth_callback?token=...
-    user -> svc_auth : Accéder au Service d'authentification
+    note right of user : GET https://auth.coquille.org/auth_callback?code=...
+    user -> svc_auth : Accède au Service d'authentification
     activate svc_auth
-        user <-- svc_auth : Redirection au carrefour
+        svc_auth -> oidc : Échange le code d'accès contre les tokens
+        svc_auth <-- oidc : Retourne un __id_token__ et un __access_token__
+        svc_auth -->o sa_cookie : Retourne un header pour créer le \ncookie de session (ce cookie sera \nutilisé lors des appels asynchrones \nà partir de la coquille)
+        user <-- svc_auth : Redirection vers la coquille
     deactivate svc_auth
-    user -> carrefour :
+    user -> coquille :
 deactivate user
 
-activate carrefour 
-    carrefour -> svc_auth : Fetch les tokens pour l'utilisateur
+activate coquille 
+    coquille -> svc_auth : Demande les tokens pour l'utilisateur
     activate svc_auth
-        note right : https://service-auth.qc.ca/auth?no_auth=true \ncredentials: true (cookie headers)
-        carrefour <-- svc_auth : Retourner les tokens
+        note right : https://auth.coquille.org/auth?no_auth=true \ncredentials: true (cookie headers)
+        svc_auth o<-- sa_cookie : Lit les tokens dans les cookies
+        coquille <-- svc_auth : Retourne les tokens
         note left
             {
                 token: "...",
                 id_token: "..."
             }
         endnote 
-        carrefour --> carrefour_storage : Stocke les jetons
-        user <-- carrefour : Afficher le carrefour avec contexte
+        coquille -->o coquille_storage : Stocke les jetons
+        coquille -> svc_manifests : Demande la liste des manifestes
+        svc_manifests <--> svc_manifests : Obtient la liste des manifestes\n(mécanisme de persistence et \nrécupération à déterminer)
+        coquille <-- svc_manifests
+        note left 
+        Exemple non déclaratif d'un array avec un manifeste :
+        [
+            {
+                titre: "Contributeur A",
+                description: "Un contributeur qui offre des services",
+                clientId: "contributeur-a",
+                urls: {
+                    healthcheck: "https://contributeur.org/healthcheck",
+                    ...
+                },
+                composants: [
+                    {
+                        nom: "Nom du composant du contributeur",
+                        tagName: "contributeur-a",
+                        chemin: "contributeurA",
+                        url: "https://cdn.contributeur.org/components.js",
+                        ...
+                    },
+                ],
+            },
+            ...,
+        ]
+        endnote
+        user <-- coquille : Afficher la coquille avec contexte
         activate user
-            user -> carrefour : Utilisateur navigue vers le composant\nde l'organisme désiré
+            user -> coquille : Utilisateur navigue vers le composant\ndu contributeur désiré
         deactivate user
-        carrefour -> svc_auth : Demande un jeton pour le composant
-        note right : https://service-auth.qc.ca/auth/token?no_auth=true&client-id=[...]&token=[...]
-        svc_auth -> oidc : Demande un jeton pour le client_id de l'organisme \nvia //token exchange//
+        coquille o<-- coquille_storage : Lit le jeton d'accès \n(celui octroyé pour \nl'accès à la coquille)
+        coquille -> svc_auth : Demande un jeton pour le composant,\nen échange du jeton d'accès initial
+        note right : https://auth.coquille.org/auth/token?no_auth=true&client-id=[...]&token=[...]
+        svc_auth -> oidc : Demande un jeton pour le \nclient_id du contributeur \nvia //token exchange//
         activate oidc
-            note right : http://keycloak.qc.ca/token
-            svc_auth <-- oidc : Génère un jeton pour le client_id désiré
+            note right : https://fournisseur-oidc.qc.ca/token
+            svc_auth <-- oidc : Reçoit un jeton pour le client_id désiré
         deactivate oidc
-        carrefour <-- svc_auth
+        coquille <-- svc_auth
     deactivate svc_auth
-    carrefour -> op_wc : Instancie le composant de l'organisme en fournissant le token obtenu par //token exchange//
-deactivate carrefour
+    coquille -> op_wc : Instancie le composant du contributeur en fournissant le token obtenu par //token exchange//
+deactivate coquille
 
 activate op_wc
     op_wc -> op_api : Le composant appelle son API \net fourni le token dans le header
     note right
-        http://api.op.qc.ca/api/[...]
+        https://api.coquille.org/api/[...]
         headers : **Authentication = "bearer [token]"**
     endnote
     activate op_api
         op_api <--> op_api : Validation des CORS
-        op_wc <-- op_api : Retourner les données demandées
+        op_api <--> op_api : Validation du jeton \n(signature, audience, expiration)
+        op_wc <-- op_api : Reçoit les données demandées
     deactivate op_api
     note left
         {
@@ -103,7 +144,7 @@ activate op_wc
             etc....
         }
     endnote
-    user <-- op_wc : Afficher le contenu sécurisé
+    user <-- op_wc : Affiche le contenu sécurisé
 deactivate op_wc
 
 activate user
