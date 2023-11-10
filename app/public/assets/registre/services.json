@@ -1,0 +1,62 @@
+[
+    {
+        "orgId": "0c1df7dc-2b97-43c1-a9f6-0f0daf277da0",
+        "nom": "Nouvelles du MCN",
+        "customElementName": "srv-mcn-nouvelles",
+        "description": "Service de consultation des dernières nouvelle du Ministère de la cybersécurité et du numérique",
+        "chemin": "pes-mcn",
+        "version": "1.0.0",
+        "signature": "",
+        "url": "http://localhost:3002/static/app-a/components.js",
+        "status": "actif",
+        "public": true,
+        "healthcheck": "http://localhost:3001/healthcheck",
+        "endpointsRelationAffaire": "http://localhost:3001/api/verifier-acces-citoyen",
+        "endpointDemandeEnCours": "http://localhost:3001/api/liste-dossier"
+    },
+    {
+        "orgId": "9cfcc39d-dac2-424d-9df6-8a15f6a2a81a",
+        "nom": "Service citoyen du MEA",
+        "customElementName": "srv-mea-s-citoyen",
+        "description": "Service citoyen du Ministère exemple A",
+        "chemin": "pes-mea",
+        "version": "1.0.0",
+        "signature": "",
+        "url": "http://localhost:3002/static/app-a/components.js",
+        "status": "actif",
+        "public": false,
+        "healthcheck": "http://localhost:3002/healthcheck",
+        "endpointsRelationAffaire": "http://localhost:3002/api/verifier-acces-citoyen",
+        "endpointDemandeEnCours": "http://localhost:3002/api/liste-dossier"
+    },
+    {
+        "orgId": "9bdcc3e4-904d-406e-9fc6-75f74856354c",
+        "nom": "Service citoyen du MEB",
+        "customElementName": "srv-meb-s-citoyen",
+        "description": "Service citoyen du Ministère exemple B",
+        "chemin": "pes-meb",
+        "version": "1.0.5",
+        "signature": "",
+        "url": "http://localhost:3002/static/app-a/components.js",
+        "status": "actif",
+        "public": false,
+        "healthcheck": "http://localhost:5276/healthcheck",
+        "endpointsRelationAffaire": "http://localhost:5275/api/verifier-acces-citoyen",
+        "endpointDemandeEnCours": "http://localhost:5275/api/liste-dossier"
+    },
+    { 
+        "orgId": "03d5fa25-0701-446f-8bd0-ad302b579b8c",
+        "nom": "Service citoyen du MEX",
+        "customElementName": "srv-mex-s-citoyen",
+        "description": "Service citoyen du Ministère exemple X",
+        "chemin": "pes-mex",
+        "version": "1.0.0",
+        "signature": "",
+        "url": "http://localhost:3007/static/app-a/components.js",
+        "status": "inactif",
+        "public": true,
+        "healthcheck": "http://localhost:3007/healthcheck",
+        "endpointsRelationAffaire": "http://localhost:3007/api/verifier-acces-citoyen",
+        "endpointDemandeEnCours": "http://localhost:3007/api/liste-dossier"
+    }
+]

@@ -1,0 +1,46 @@
+{
+  "name": "services-gouv",
+  "version": "0.0.1",
+  "description": "Services gouvernementaux en ligne",
+  "main": "index.js",
+  "scripts": {
+    "dev-server-host": "vite --open --host",
+    "dev-server": "vite --open",
+    "dev": "npm run dev-server",
+    "dev-task": "vite",
+    "deploy": " npx @azure/static-web-apps-cli login --no-use-keychain && npx @azure/static-web-apps-cli deploy",
+    "build": "tsc && vite build",
+    "start": "npm run dev",
+    "start-remote": "vite --host"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@lit/context": "^1.0.0",
+    "@lit/task": "^1.0.0",
+    "@shoelace-style/shoelace": "^2.11.2",
+    "@thepassle/app-tools": "^0.9.9",
+    "@types/lodash": "^4.14.200",
+    "lit": "3.0.0",
+    "lodash": "^4.17.21",
+    "urlpattern-polyfill": "^9.0.0",
+    "workbox-build": "^7.0.0",
+    "workbox-core": "^7.0.0",
+    "workbox-precaching": "^7.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0",
+    "vite-plugin-pwa": "^0.16.5"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "quoteProps": "consistent",
+    "trailingComma": "es5",
+    "endOfLine": "crlf",
+    "bracketSpacing": true
+  }
+}
