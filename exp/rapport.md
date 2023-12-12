@@ -10,7 +10,7 @@ statut : en cours
 [![img](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://www.quebec.ca/gouv/politiques-orientations/vitrine-numeriqc/accompagnement-des-organismes-publics/demarche-conception-services-numeriques)
 [![License](https://img.shields.io/badge/Licence-LiLiQ--P-blue)](../LICENCE)
 ---
-![Logo MCN](https://github.com/CQEN-QDCE/.github/blob/main/images/mcn.png")
+![Logo MCN](https://github.com/CQEN-QDCE/.github/blob/main/images/mcn.png)
 <!-- FIN ENTETE -->
 
 # Modèle de développement distribué 
@@ -79,7 +79,7 @@ Le contributeur de service interagit avec le Registre des services. Des services
 
 ![Diagramme de flux](https://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/CQEN-QDCE/exp-dev-distribue/main/exp/architecture/fluxPublication.puml)
 
-Le processus de publication obligerait de passer l’étape de d’approbation avec succès avant d’invoquer le service de publication. Ce dernier pourrait être invoqué par l’orchestration du déploiement du service du contributeur par exemple. 
+Le processus de publication obligerait de passer l’étape d’approbation avec succès avant d’invoquer le service de publication. Ce dernier pourrait être invoqué par l’orchestration du déploiement du service du contributeur par exemple. 
 
 En mettant ainsi à profit le modèle de communauté ouverte en libre-service, on vient assurer la prise en charge des développeurs avec un minimum de ressource humaine. Un gestionnaire de communauté peut assurer les interactions avec les développeurs de services, tandis que les mainteneurs du produit prennent connaissance des problématiques directement dans les outils de rapport de bogue. Le reste des interactions sont automatisés grâce à mise en disponibilité d’outils libre-service. 
 
