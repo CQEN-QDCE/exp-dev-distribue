@@ -1,0 +1,35 @@
+name: Construction et test de bout en bout de la solution distribuée
+on:
+  push:
+    branches: 
+      - 'main'
+      - 'feature/*'  
+  workflow_dispatch:
+
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    continue-on-error: true
+    
+    steps:
+      - name: Obtenir le code
+        uses: actions/checkout@v3
+
+      - name: Utiliser Node.js
+        uses: actions/setup-node@v2
+        with: 
+          node-version: "14.x"
+
+      - name: Installer les dépendances
+        run: npm install
+
+      - shell: bash
+        env:
+          APP_HOST: ${{ secrets.APP_HOST }}
+          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+          LT_USERNAME: ${{ secrets.LT_USERNAME }}
+        run: |
+          run: run-e2e.sh -t '@affaire' -d 'oui'

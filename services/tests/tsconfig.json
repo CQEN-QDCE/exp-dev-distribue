@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "types": [
+      "node",
+      "@wdio/globals/types",
+      "@wdio/cucumber-framework",
+      "expect-webdriverio",
+      "wdio-image-comparison-service",
+      "@wdio/devtools-service",
+      "wdio-lambdatest-service"
+    ]
+  }
+}
