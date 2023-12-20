@@ -58,6 +58,6 @@ L'on aura donc besoin d'un compte `Lambdatest` et définir les variables d'envir
 
 ## Exemple de rapports
 
-![allurereport]("https://github.com/CQEN-QDCE/exp-dev-distribue/blob/feature/essais-systemes/services/tests/rapport-allure.png")
+![Allurereport](https://github.com/CQEN-QDCE/exp-dev-distribue/blob/feature/essais-systemes/services/tests/rapport-allure.png)
 
-![Lambdatest]("https://github.com/CQEN-QDCE/exp-dev-distribue/blob/feature/essais-systemes/services/tests/rapport-allure.png")
+![Lambdatest](https://github.com/CQEN-QDCE/exp-dev-distribue/blob/feature/essais-systemes/services/tests/journal-lambdatest.png)
