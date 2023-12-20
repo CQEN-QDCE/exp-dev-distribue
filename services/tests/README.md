@@ -5,6 +5,7 @@ Le principale objectif de ce projet est celui de jeter les bases d'un cadre de d
 
 Ce cadre utilise plusieurs technologies, parmi lesquelles [WebdriverIO](https://webdriver.io/), [Appium](https://webdriver.io/), [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/) , [DevTools](https://developer.chrome.com/docs/devtools?hl=fr), [AllureReport](https://webdriver.io/docs/allure-reporter/), le tout écrit en [TypeScript](https://www.typescriptlang.org/).
 
+
 ## Pour commencer
 
 Ce projet est basé sur [NodeJS](https://nodejs.org/en/learn/getting-started/how-to-install-nodejs). Son installation est requise pour une utilisation en local.
@@ -23,6 +24,12 @@ Les fichiers de configuration résident dans le dossier `config`. [Le modèle d'
 
 L'on peut exécuter les tests, soit en local ou sur une plateforme infonuagique de tests.
 
+Les tests peuvent être étiquetés suivant les valeurs suivantes :
+ * @affaire : regroupe les tests fonctionnels
+ * @perfo : englobe les tests de performance
+ * @visuel : essais visuels d'interface utilisateurs
+ * @a11y : tests d'accessibilité de la solution 
+
 L'exécution locale est effectuée suivant la commande ci-après:
 
 ```shell
@@ -36,8 +43,8 @@ run-e2e.sh -t '@visuel or @perfo or @affaire or @a11y' -d oui
 ```
 où 
 
-`-t` : représente les étiquettes de type de tests possibles
-`-d` : l'exécution à distance sur une plateforme (ce commutateur peut ne pas être défini ou prendre l'une des valeurs : oui/O/o ou Yes/Y/y)
+* `-t` : représente les étiquettes de type de tests possibles
+* `-d` : l'exécution à distance sur une plateforme (ce commutateur peut ne pas être défini ou prendre l'une des valeurs : oui/O/o ou Yes/Y/y)
 
 La plateforme d'exécution de tests utilisée est [LambdaTest](https://www.lambdatest.com/).
 
@@ -47,3 +54,10 @@ L'on aura donc besoin d'un compte `Lambdatest` et définir les variables d'envir
 ## GitHub Actions
 
 [GitHub Actions](https://docs.github.com/en/actions) est utilisé pour l'intégration et le déploiement continu, à cet effet, le fichier `github-actions-ci` est présent dans le dossier `workflows` situé à la racine du projet.
+
+
+## Exemple de rapports
+
+![allurereport]("https://github.com/CQEN-QDCE/exp-dev-distribue/blob/feature/essais-systemes/services/tests/rapport-allure.png")
+
+![Lambdatest]("https://github.com/CQEN-QDCE/exp-dev-distribue/blob/feature/essais-systemes/services/tests/rapport-allure.png")
