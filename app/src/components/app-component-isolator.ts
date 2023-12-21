@@ -33,7 +33,7 @@ export class AppComponentIsolator extends LitElement {
 
     firstUpdated() {
         if (!this.service) {
-            console.error('Le manifeste du service n\'est pas défini.');
+            console.error("Le service demandé n'est pas inscrit au registre.");
         }
 
         // AJouter un eventListener pour écouter l'événement d'authentification
@@ -43,35 +43,42 @@ export class AppComponentIsolator extends LitElement {
 
         // Importer le composant
         if (this.service?.url && !this.imported) {
-            import(this.service?.url /* @vite-ignore */).then(() => {
-                this.imported = true;
-                const accessToken = localStorage.getItem(SESSION_STORAGE_ACCESS_TOKEN) || "";
-                if (!!accessToken && !!this.clientId) {
-                    fechAccessTokenForServices(accessToken, this.clientId).then((tokens) => {
-                        console.log(`Tokens pour ${this.clientId}`, tokens);
-                        this.tokens = tokens;
+            import(this.service?.url /* @vite-ignore */)
+                .then(() => {
+                    console.info('Import du web component complété : ', this.service?.url);
+                    this.imported = true;
+                    const accessToken = localStorage.getItem(SESSION_STORAGE_ACCESS_TOKEN) || "";
+                    if (!!accessToken && !!this.clientId) {
+                        fechAccessTokenForServices(accessToken, this.clientId).then((tokens) => {
+                            console.log(`Tokens pour ${this.clientId}`, tokens);
+                            this.tokens = tokens;
+                            this.requestUpdate();
+                        });
+                    }
+                    else if(!accessToken && !!this.clientId) {
                         this.requestUpdate();
-                    });
-                }
-                else if(!accessToken && !!this.clientId) {
-                    this.requestUpdate();
-                }
-                else {
-                    console.error('Le clientId n\'est pas défini.');
-                }
-            });
+                    }
+                    else {
+                        console.error('Le clientId n\'est pas défini.');
+                    }
+                })
+                .catch((reason: any) => {
+                    console.error('Import du web component non complété : ', reason);
+                    this.imported = false;
+                });
         }
     }
 
     render() {
         const tagName = this.service?.customElementName || "";
         if (!tagName) {
-            return html`<div>Le composant du service n'est pas défini correctement. Vérifier le manifeste du service.</div>`;
+            console.error("Balise du service non inscrite au registre.");
+            return html`<div>Erreur système, veuillez réessayer plus tard.</div>`;
         }
 
         if (this.imported) {
             this.appComponent = document.createElement(tagName);
-            console.info('Composant chargé : ', this.appComponent);
+            console.info('Component Isolator: Élément créé : ', this.appComponent);
         }
 
         if (this.appComponent) {
@@ -81,6 +88,7 @@ export class AppComponentIsolator extends LitElement {
             };
 
             (<any>this.appComponent).tokens = tokens;
+
             return html`
                 <!-- L'utilisation du dom-observer sert à démontrer en partie l'isolation du composant -->
                 <dom-observer></dom-observer>

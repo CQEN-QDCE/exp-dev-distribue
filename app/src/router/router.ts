@@ -45,7 +45,10 @@ export const updateRouter = (services: Registre.Services, renderCallback: (servi
           window.dispatchEvent(new CustomEvent(WINDOW_EVENT_ROUTE_RENDERED));
 
           if ((service?.url || '').length === 0) {
-              return document.createElement(tagName);
+              var appComponent = document.createElement(tagName);
+              console.info('Router: Élément créé : ', appComponent);
+            
+              return appComponent;
           }
           else {
               return renderCallback(service);

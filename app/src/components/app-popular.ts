@@ -34,12 +34,12 @@ export class AppPopular extends LitElement {
         <nav aria-labelledby="en-demande-titre-113622">
         <ul class="en-demande-liste">
         ${this.services.render({
-          complete: (result: Registre.Services) => html`
-            ${result.map(i => html`<li><a title="${i.description}" href="#" @click="${() => router.current.navigate(`${i.chemin}/`)}">${i.nom}</a></li>`)}
-          `,
-          initial: () => html`<li>Initial</li>`,
-          pending: () => html`<li>Pending</li>`,
-          error: (e: any) => html`<li>${e}</li>`
+            complete: (result: Registre.Services) => html`
+              ${result.map(i => html`<li><a title="${i.description}" href="#" @click="${() => router.current.navigate(`${i.chemin}/`)}">${i.nom}</a></li>`)}
+            `,
+            initial: () => html`<li>Initial</li>`,
+            pending: () => html`<li>Pending</li>`,
+            error: (e: any) => html`<li>${e}</li>`
         })}
         </ul>
         </nav>

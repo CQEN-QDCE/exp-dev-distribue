@@ -1,3 +1,7 @@
+/**
+ * Controlleur des données des services publiés au registre
+ */
+
 import {ReactiveController, ReactiveControllerHost} from 'lit';
 import {StatusRenderer, Task} from '@lit/task';
 import * as Registre from './registre-api.js';
