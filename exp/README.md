@@ -20,7 +20,7 @@ Comment un produit applicatif dont les services sont contribués par des contrib
 * Exemples d'utilisation des outils de communication avec l'équipe produit (Issues, Discussions, Wiki, Releases) 
 * Déploiement d'un environnement de test à partir d'un clone du dépôt pour développer et tester un service dans la coquille. 
 
-### Validation des normes fonctionnelles d'un service contribué 
+### Services d'assurance qualité
 
 Vérifier les limites technologiques à l'assurance qualité automatisée des services contribués en mettant en place un processus automatisé qui contiendrait les fonctionnalités suivantes: 
 
@@ -28,7 +28,7 @@ Vérifier les limites technologiques à l'assurance qualité automatisée des se
 * Respect des normes UI (accessibilité, police caractères, couleurs, PIV, etc.) 
 * Respect des normes comportementales (validation des champs de saisie, navigation, aide contextuelle, etc.) 
 
-### Intégration continue 
+### Services d'intégration continue 
 
 Comment gère-t-on la publication des changements dans un modèle de développement décentralisé? Un mécanisme automatisé doit permettre d’assurer que les services validés précédemment sont bien ceux servi par la coquille. Un registre de composants qui gère les contributeurs et leurs contributions pourrait contenir les fonctionnalités suivantes:
 
