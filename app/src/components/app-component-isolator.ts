@@ -1,5 +1,5 @@
 /**
- * Composant qui sert à isoler les composants (custom elements) des OP.
+ * Composant qui sert à isoler les composants importé de l'externe
  *
  * Il permet :
  *   1) encapsuler les composants dans un shadow DOM
@@ -8,18 +8,14 @@
  *      - le composant est importé dynamiquement
  *      - le composant est généré dynamiquement
  *      - le composant est ajouté au shadow DOM
- *
- * On passe un manifeste en paramètre pour générer dynamiquement le composant.
- *
- * Le manifeste est importé de ../manifeste.interface.ts (interface ManifesteComposant)
  */
 
 import { LitElement, html } from 'lit';
 import { Service } from "../registre/service.interface";
 
 import { customElement, property } from 'lit/decorators.js';
-import { TokenSet, fechAccessTokenForServices } from './app-auth';
-import { SESSION_STORAGE_ACCESS_TOKEN, WINDOW_EVENT_AUTH } from '../constants';
+//import { TokenSet, fechAccessTokenForServices } from './app-auth';
+//import { SESSION_STORAGE_ACCESS_TOKEN, WINDOW_EVENT_AUTH } from '../constants';
 
 @customElement('app-component-isolator')
 export class AppComponentIsolator extends LitElement {
@@ -29,17 +25,19 @@ export class AppComponentIsolator extends LitElement {
 
     private imported: boolean = false;
     private appComponent: HTMLElement | undefined;
-    private tokens: TokenSet | undefined;
+    //private tokens: TokenSet | undefined;
 
     firstUpdated() {
         if (!this.service) {
             console.error("Le service demandé n'est pas inscrit au registre.");
         }
 
-        // AJouter un eventListener pour écouter l'événement d'authentification
+        // Ajouter un eventListener pour écouter l'événement d'authentification
+        /*
         window.addEventListener(WINDOW_EVENT_AUTH, () => {
             this.requestUpdate();
         });
+        */
 
         // Importer le composant
         if (this.service?.url && !this.imported) {
@@ -47,7 +45,11 @@ export class AppComponentIsolator extends LitElement {
                 .then(() => {
                     console.info('Import du web component complété : ', this.service?.url);
                     this.imported = true;
+                    this.requestUpdate();
+
+                    /*
                     const accessToken = localStorage.getItem(SESSION_STORAGE_ACCESS_TOKEN) || "";
+                    
                     if (!!accessToken && !!this.clientId) {
                         fechAccessTokenForServices(accessToken, this.clientId).then((tokens) => {
                             console.log(`Tokens pour ${this.clientId}`, tokens);
@@ -61,6 +63,7 @@ export class AppComponentIsolator extends LitElement {
                     else {
                         console.error('Le clientId n\'est pas défini.');
                     }
+                    */
                 })
                 .catch((reason: any) => {
                     console.error('Import du web component non complété : ', reason);
@@ -82,12 +85,14 @@ export class AppComponentIsolator extends LitElement {
         }
 
         if (this.appComponent) {
+            /*
             const tokens = {
                 bearerToken: this.tokens?.access_token ,
                 idToken: this.tokens?.id_token
             };
 
             (<any>this.appComponent).tokens = tokens;
+            */
 
             return html`
                 <!-- L'utilisation du dom-observer sert à démontrer en partie l'isolation du composant -->
@@ -97,10 +102,10 @@ export class AppComponentIsolator extends LitElement {
             `;
         }
 
-        return html`<div>Chargement en cours...</div>`;
+        return html`<div>Erreur: Composant externe non défini</div>`;
     }
 
-    protected createRenderRoot(): Element | ShadowRoot {
+    protected createRenderRoot(): HTMLElement | DocumentFragment {
         return this.attachShadow({ mode: 'closed' });
     }
 }

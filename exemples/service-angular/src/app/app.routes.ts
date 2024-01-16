@@ -8,6 +8,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 export const routes: Routes = [
     { path: '', component: AccueilComponent },
     { path: 'accueil', component: AccueilComponent },
-    { path: 'formulaire', component: FormulaireComponent},
-    { path: 'confirmation', component: ConfirmationComponent}
+    { path: 'formulaire', component: FormulaireComponent },
+    { path: 'confirmation', component: ConfirmationComponent },
+    { path: '**', redirectTo: '', pathMatch: 'full'}
 ];

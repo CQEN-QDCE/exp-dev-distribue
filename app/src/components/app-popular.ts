@@ -15,11 +15,11 @@ export class AppPopular extends LitElement {
     private services: ServicesController
     
     constructor() {
-      super();
+        super();
       
-      window.addEventListener(Registre.WINDOW_EVENT_REGISTRE_SERVICES_ASYNC_COMPLETE, (event: any) => {
-          this.requestUpdate();
-      });
+        window.addEventListener(Registre.WINDOW_EVENT_REGISTRE_SERVICES_ASYNC_COMPLETE, (event: any) => {
+            this.requestUpdate();
+        });
     }
 
     //TODO: Ajouter une métrique pour trier les services les plus consultés
@@ -35,7 +35,7 @@ export class AppPopular extends LitElement {
         <ul class="en-demande-liste">
         ${this.services.render({
             complete: (result: Registre.Services) => html`
-              ${result.map(i => html`<li><a title="${i.description}" href="#" @click="${() => router.current.navigate(`${i.chemin}/`)}">${i.nom}</a></li>`)}
+              ${result.map(i => html`<li><a title="${i.description}" href="${i.chemin}">${i.nom}</a></li>`)}
             `,
             initial: () => html`<li>Initial</li>`,
             pending: () => html`<li>Pending</li>`,

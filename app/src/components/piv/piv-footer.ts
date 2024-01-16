@@ -31,7 +31,7 @@ export class PivHeader extends LitElement {
                 <div class="col-12 d-flex align-items-center justify-content-center"><p><a href="/droit-auteur">© Gouvernement du Québec,&nbsp;2023</a></p></div>
             </div>
         </div>
-        <div id="flecheHaut" tabindex="0" role="link"><img src="/typo3conf/ext/gabarit_pgu/Resources/Public/Images/Templates/fleche-precedent.svg" aria-hidden="true" alt="Retour en haut"><span class="visuallyHidden">Retour en haut</span></div>
+        <div id="flecheHaut" tabindex="0" role="link"><span class="visuallyHidden">Retour en haut</span></div>
         </div>`;
     }
 }

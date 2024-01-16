@@ -4,7 +4,8 @@
 
 import {ReactiveController, ReactiveControllerHost} from 'lit';
 import {StatusRenderer, Task} from '@lit/task';
-import * as Registre from './registre-api.js';
+import * as Registre from './registre-api';
+import {servicesInternes} from './services-internes'
 
 export class ServicesController implements ReactiveController {
     host: ReactiveControllerHost;
@@ -22,7 +23,11 @@ export class ServicesController implements ReactiveController {
                 if (!response.ok) { throw new Error(response.statusText); }
 
                 const data = await response.json();
-                return data as Registre.Services;
+
+                const servicesExterne = data as Registre.Services;
+
+                //Ajout de la liste des services internes
+                return [...servicesInternes, ...servicesExterne];
             },
             args: () => [],
             //autoRun: false,

@@ -275,7 +275,6 @@
   height:5px;
   width:100%;
   overflow:hidden;
-  background:url("/typo3conf/ext/powermail/Resources/Public/Image/icon_loading.gif") repeat-x;
   -moz-opacity:0.25;
   -khtml-opacity:0.25;
   opacity:0.25;
@@ -321,21 +320,17 @@
   background:none
 }
 .tx-powermail .powermail_message.powermail_message_ok {
-  background-image:url("/typo3conf/ext/powermail/Resources/Public/Image/icon_ok.png");
   background-color:#CDEACA;
   border:1px solid #3B7826
 }
 .tx-powermail .powermail_message.powermail_message_ok li {
   color:#3B7826
 }
-.tx-powermail .powermail_message.powermail_message_error {
-  background-image:url("/typo3conf/ext/powermail/Resources/Public/Image/icon_error.png")
-}
+
 .tx-powermail .powermail_message.powermail_message_error li {
   color:#A94442
 }
 .tx-powermail .powermail_message.powermail_message_note {
-  background-image:url("/typo3conf/ext/powermail/Resources/Public/Image/icon_ok.png");
   background-color:#FCF8E3;
   border:1px solid #FFCA4B
 }
@@ -1375,8 +1370,8 @@ pre code {
 .container-md,
 .container-sm {
   width:100%;
-  padding-right:15px;
-  padding-left:15px;
+  /*padding-right:15px;*/
+  /*padding-left:15px;*/
   margin-right:auto;
   margin-left:auto;
 }
@@ -11080,7 +11075,6 @@ h3.ligneSousTitre {
   padding-left:5.2rem;
 }
 .frame-document {
-  background-image:url(/typo3conf/ext/gabarit_pgu/Resources/Public/Icons/ico-document.svg?v=1);
   background-position:0 9px;
   background-size:1.5rem 1.5rem;
   padding-left:2rem;
@@ -15244,12 +15238,6 @@ a.btn-info:hover {
   background-position:center;
   background-repeat:no-repeat;
 }
-.ico-plus {
-  background-image:url(/typo3conf/ext/gabarit_pgu/Resources/Public/Icons/ico-plus.svg);
-}
-.ico-moins {
-  background-image:url(/typo3conf/ext/gabarit_pgu/Resources/Public/Icons/ico-moins.svg);
-}
 .image-caption p {
   margin-bottom:0;
   font-size:0.8rem;
@@ -18693,7 +18681,6 @@ html:not([lang=en]) blockquote.lang-en::after {
   }
 }
 .frame-messageAlerte .container {
-  background-image:url("/typo3conf/ext/gabarit_pgu/Resources/Public/Images/Icons/ico-bandeau-bleu.svg");
   background-size:28px 28px;
   background-repeat:no-repeat;
   padding-top:0.8rem;
@@ -18741,7 +18728,6 @@ html:not([lang=en]) blockquote.lang-en::after {
   }
 }
 .frame-messageCatastrophe .container {
-  background-image:url("/typo3conf/ext/gabarit_pgu/Resources/Public/Images/Icons/ico-bandeau-bleu.svg");
   background-size:28px 28px;
   background-position:0.5rem 0.8rem;
   background-repeat:no-repeat;
@@ -18789,7 +18775,6 @@ html:not([lang=en]) blockquote.lang-en::after {
   color:#fff;
 }
 .frame-messageGeneral .container {
-  background-image:url("/typo3conf/ext/gabarit_pgu/Resources/Public/Images/Icons/ico-bandeau-bleu.svg");
   background-size:28px 28px;
   background-position:0.5rem 0.8rem;
   background-repeat:no-repeat;
@@ -18874,34 +18859,6 @@ html:not([lang=en]) blockquote.lang-en::after {
     line-height:1.5;
     font-weight:normal;
   }
-}
-@font-face {
-  font-family:'object_sansregular';
-  src:url('../../../typo3conf/ext/gabarit_pgu/Resources/Public/Fonts/object_sans_slanted/objectsans-regular-webfont.woff2') format('woff2'),
-  url('../../../typo3conf/ext/gabarit_pgu/Resources/Public/Fonts/object_sans_slanted/objectsans-regular-webfont.woff') format('woff');
-  font-weight:normal;
-  font-style:normal;
-}
-@font-face {
-  font-family:'object_sansbold';
-  src:url('../../../typo3conf/ext/gabarit_pgu/Resources/Public/Fonts/object_sans_slanted/objectsans-bold-webfont.woff2') format('woff2'),
-  url('../../../typo3conf/ext/gabarit_pgu/Resources/Public/Fonts/object_sans_slanted/objectsans-bold-webfont.woff') format('woff');
-  font-weight:normal;
-  font-style:normal;
-}
-@font-face {
-  font-family:'object_sansbold_slanted';
-  src:url('../../../typo3conf/ext/gabarit_pgu/Resources/Public/Fonts/object_sans_slanted/objectsans-boldslanted-webfont.woff2') format('woff2'),
-  url('../../../typo3conf/ext/gabarit_pgu/Resources/Public/Fonts/object_sans_slanted/objectsans-boldslanted-webfont.woff') format('woff');
-  font-weight:normal;
-  font-style:normal;
-}
-@font-face {
-  font-family:'object_sansslanted';
-  src:url('../../../typo3conf/ext/gabarit_pgu/Resources/Public/Fonts/object_sans_slanted/objectsans-slanted-webfont.woff2') format('woff2'),
-  url('../../../typo3conf/ext/gabarit_pgu/Resources/Public/Fonts/object_sans_slanted/objectsans-slanted-webfont.woff') format('woff');
-  font-weight:normal;
-  font-style:normal;
 }
 .introMRIF {
   padding:20px 15px;
@@ -19093,7 +19050,6 @@ li.suivre-ms-list-element {
   list-style-type:none;
 }
 .lienPublication {
-  background-image:url('../../../typo3conf/ext/pgu_content_element/Resources/Public/Images/ico-document.svg?v=1');
   background-repeat:no-repeat;
   min-height:1.5rem;
 }
