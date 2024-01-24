@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
+    baseURL: 'http://localhost:5173',
     clientId: 'coquille',
-    urlServiceNotification: 'ws://localhost:3005',
     urlServiceAuth: 'http://localhost:3009/auth'
 };

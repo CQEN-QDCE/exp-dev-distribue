@@ -25,7 +25,7 @@ export class DomObserver extends HTMLElement {
 
       mutationObserverCallback: MutationCallback = (mutations) => {
         mutations.forEach(function(mutation) {
-            const element = mutation.target as HTMLElement;
+            const element = mutation.target as Element;
             const style = getComputedStyle(element);
             console.info(`nodeName: ${element.nodeName}, id: ${element.id}, computed style.position: ${style.position}, mutation.type: ${mutation.type}, child node count: ${mutation.addedNodes.length}`);
         });

@@ -21,6 +21,6 @@
           "vite/client"
       ]
   },
-  "include": ["src/**/*.ts", "router.d.ts"],
+  "include": ["src/**/*.ts", "defintions/customEvents.d.ts"],
   "exclude": ["node_modules"]
 }

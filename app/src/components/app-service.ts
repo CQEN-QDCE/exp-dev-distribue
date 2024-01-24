@@ -2,8 +2,10 @@ if (!(globalThis as any).URLPattern) {
   await import("urlpattern-polyfill");
 }
 
+import { environment } from '../environment';
+
 import { LitElement } from 'lit';
-import { html, literal } from 'lit/static-html.js';
+import { html } from 'lit/static-html.js';
 import { property, customElement } from 'lit/decorators.js';
 import { provide, createContext } from '@lit/context';
 
@@ -13,7 +15,7 @@ import { OrganismesController } from '../registre/organismes-controller';
 import { ServicesController } from '../registre/services-controller';
 
 import { AppComponentIsolator } from './app-component-isolator';
-
+import { NavigateEventDetail } from '../definitions/customEvents'
 import { servicesContext } from '../registre/services-context';
 
 export const organismesContext = createContext(Symbol('organismes-context'));
@@ -40,7 +42,7 @@ export class AppService extends LitElement {
     currentState: State;
     newState: State | null;
 
-    baseURL: URL = (import.meta as any).env.BASE_URL;
+    baseURL:URL = new URL(environment.baseURL);
 
     constructor() {
         super();
@@ -63,7 +65,7 @@ export class AppService extends LitElement {
             return this.currentState.service?.renderFunction();
         } 
         else if (this.currentState.service?.url) {
-            //Service exterme
+            //Service externe
             const isolator = new AppComponentIsolator();
             isolator.service = this.currentState.service;
             isolator.clientId = this.currentState.service?.orgId;
@@ -101,15 +103,23 @@ export class AppService extends LitElement {
 
         const targetUrl = new URL(clickedAnchor.href);
 
-        //Est-ce que l'url a vraiment changé?
-        if (this.currentState.url.href === targetUrl.href) return;
-
         //Est-ce un lien local?
         if (targetUrl.host !== window.location.host) return;
     
         e.preventDefault();
+
+        //Est-ce que l'url a vraiment changé?
+        if (this.currentState.url.href === targetUrl.href) return;
     
         console.log("app-service: Clic d'un lien valide.", targetUrl);  
+        
+        this.navigate(targetUrl);
+    }
+
+    _onNavigationRequest = (event:CustomEvent<NavigateEventDetail>) => {
+        console.log("app-service: Demande de navigation depuis un composant.", event);
+            
+        let targetUrl = new URL(this.baseURL.href+event.detail.path);
         
         this.navigate(targetUrl);
     }
@@ -119,7 +129,7 @@ export class AppService extends LitElement {
         
         for (const service of services) {
             //Ajout du pattern {/}? pour gérer les 'trailing slashes'
-            const pattern = new URLPattern({ pathname: service.chemin+'{/}?', baseURL: this.baseURL.href });
+            const pattern = new URLPattern({ pathname: service.chemin+'{/}?'/*, baseURL: this.baseURL*/ });
           
             const match = pattern.exec(this.newState?.url);
 
@@ -157,11 +167,9 @@ export class AppService extends LitElement {
             url: url,
         }
 
+        //Méthode de changement d'url
         //window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
-
         window.history.pushState(null, '', `${url.pathname}${url.search}${url.hash}`);
-      
-        //this._notifyUrlChanged();
 
         this.requestUpdate();
     }
@@ -171,6 +179,8 @@ export class AppService extends LitElement {
 
         window.addEventListener('popstate', this._onPopState);
         window.addEventListener('click', this._onAnchorClick);
+        
+        window.addEventListener("navigate-custom-event", this._onNavigationRequest);
     }
 
     disconnectedCallback(): void {
@@ -178,10 +188,6 @@ export class AppService extends LitElement {
 
         window.removeEventListener('popstate', this._onPopState);
         window.removeEventListener('click', this._onAnchorClick);
-    }
-
-    firstUpdated() {
-        //this.requestUpdate();
     }
 
     render() {

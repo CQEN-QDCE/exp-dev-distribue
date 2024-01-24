@@ -24,8 +24,6 @@ export class AppPopular extends LitElement {
 
     //TODO: Ajouter une métrique pour trier les services les plus consultés
     render() {
-      console.log("app-popular rendered", this.services);  
-      
       return html`
         <link type="text/css" rel="stylesheet" href="/css/quebec_ca.css" />
         

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-formulaire',
+  selector: 'mea-app-formulaire',
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './formulaire.component.html'
