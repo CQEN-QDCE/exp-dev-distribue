@@ -117,11 +117,13 @@ export class AppService extends LitElement {
     }
 
     _onNavigationRequest = (event:CustomEvent<NavigateEventDetail>) => {
-        console.log("app-service: Demande de navigation depuis un composant.", event);
+        if (!event.defaultPrevented) {
+            console.log("app-service: Demande de navigation depuis un composant.", event);
+                
+            let targetUrl = new URL(this.baseURL.href+event.detail.path);
             
-        let targetUrl = new URL(this.baseURL.href+event.detail.path);
-        
-        this.navigate(targetUrl);
+            this.navigate(targetUrl);
+        }
     }
 
     _findNewStateService(services:Registre.Services) {

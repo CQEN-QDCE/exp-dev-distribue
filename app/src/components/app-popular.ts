@@ -2,8 +2,6 @@ import { LitElement, html} from "lit";
 import { consume } from "@lit/context";
 import { property, customElement} from "lit/decorators.js";
 
-import { router } from "../router/router";
-
 import * as Registre from '../registre/registre-api.js';
 import { servicesContext } from '../registre/services-context';
 import { ServicesController } from '../registre/services-controller';
@@ -13,14 +11,6 @@ export class AppPopular extends LitElement {
     @consume({context: servicesContext, subscribe: true })
     @property({attribute: false})
     private services: ServicesController
-    
-    constructor() {
-        super();
-      
-        window.addEventListener(Registre.WINDOW_EVENT_REGISTRE_SERVICES_ASYNC_COMPLETE, (event: any) => {
-            this.requestUpdate();
-        });
-    }
 
     //TODO: Ajouter une métrique pour trier les services les plus consultés
     render() {

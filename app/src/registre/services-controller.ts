@@ -32,15 +32,6 @@ export class ServicesController implements ReactiveController {
             args: () => [],
             //autoRun: false,
             onComplete: (value: Registre.Services) => {
-                // Émettre un événement pour que les composants puissent s'initialiser
-                const event = new CustomEvent(Registre.WINDOW_EVENT_REGISTRE_SERVICES_ASYNC_COMPLETE, {
-                    detail: {
-                        services: value
-                    }
-                });
-
-                window.dispatchEvent(event);
-                
                 console.log("Service Task complete", value);
             }
         });

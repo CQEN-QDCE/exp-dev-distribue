@@ -9,9 +9,6 @@ export type Registre = {
     services: Services
 }
 
-export const organismesEndpoint = '/assets/registre/organismes.json'
-export const servicesEndpoint = '/assets/registre/services.json'
-
-export const WINDOW_EVENT_REGISTRE_ORGS_ASYNC_COMPLETE = 'registre-orgs-async-complete'
-export const WINDOW_EVENT_REGISTRE_SERVICES_ASYNC_COMPLETE = 'registre-services-async-complete'
+export const organismesEndpoint = '/assets/registre/organismes.json';
+export const servicesEndpoint = '/assets/registre/services.json';
   
