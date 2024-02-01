@@ -1,0 +1,34 @@
+[
+    {
+        "guid": "0c1df7dc-2b97-43c1-a9f6-0f0daf277da0",
+        "nomCourt": "MCN",
+        "nomLong": "Ministère de la cybersécurité et du numérique",
+        "description": "Le ministère de la Cybersécurité et du Numérique a pour mission d'animer et de coordonner les actions de l’État dans les domaines de la cybersécurité et du numérique, de proposer au gouvernement les grandes orientations en ces domaines, de déterminer les secteurs d’activités où il entend agir en priorité et de proposer au gouvernement des mesures en vue d’accroître l’efficacité de la lutte contre les cyberattaques et les cybermenaces au Québec.",
+        "clientId": "org-mcn-0",
+        "urlLogo": "/assets/piv/logo-ministere-couleur.svg"
+    },
+    {
+        "guid": "9cfcc39d-dac2-424d-9df6-8a15f6a2a81a",
+        "nomCourt": "MEA",
+        "nomLong": "Ministère exemple A",
+        "description": "Le Ministère Exemple A du Québec est le fer de lance de l'innovation et de l'excellence au service des citoyens québécois. Fort de sa mission de promouvoir l'épanouissement de la société et de l'économie de la province, ce ministère incarne la vision avant-gardiste du gouvernement. Ses actions novatrices touchent des domaines variés, de l'éducation à la technologie, en passant par la culture et la durabilité environnementale. Avec un engagement inébranlable envers le progrès, le Ministère Exemple A est le modèle inspirant pour l'avenir du Québec.",
+        "clientId": "org-mea-0",
+        "urlLogo": "/assets/piv/logo-ministere-couleur.svg"
+    },
+    {
+        "guid": "9bdcc3e4-904d-406e-9fc6-75f74856354c",
+        "nomCourt": "MEB",
+        "nomLong": "Ministère exemple B",
+        "description": "Le Ministère Exemple B du Québec, tel un gardien vigilant de nos ressources naturelles, œuvre inlassablement à préserver et à protéger le patrimoine environnemental de notre belle province. Sa mission cruciale est de veiller sur les écosystèmes, de promouvoir la durabilité, et de mettre en place des politiques et des initiatives qui favorisent la conservation de notre environnement unique. Avec un dévouement sans faille envers la planète et les générations futures, le Ministère Exemple B incarne la vision écologique du gouvernement québécois, travaillant assidûment pour un avenir où la nature et l'humain coexistent en harmonie.",
+        "clientId": "org-meb-0",
+        "urlLogo": "/assets/piv/logo-ministere-couleur.svg"
+    },
+    { 
+        "guid": "03d5fa25-0701-446f-8bd0-ad302b579b8c",
+        "nomCourt": "MEX",
+        "nomLong": "Ministère exemple B",
+        "description": "Le Ministère Exemple X du Québec est le pilier essentiel qui façonne le quotidien de chaque citoyen. Avec une mission dédiée à garantir la sécurité, le bien-être, et l'équité pour tous, ce ministère incarne la quintessence du service public. De la santé à la justice, de l'éducation à l'emploi, le Ministère Exemple X est au cœur de chaque aspect de la vie québécoise. Guidé par un profond sens de la responsabilité envers ses concitoyens, il œuvre sans relâche pour améliorer la qualité de vie de chaque personne, contribuant ainsi à faire du Québec un endroit où chacun peut s'épanouir.",
+        "clientId": "org-mex-0",
+        "urlLogo": "/assets/piv/logo-ministere-couleur.svg"
+    }
+]

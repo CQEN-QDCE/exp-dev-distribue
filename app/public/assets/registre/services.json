@@ -1,0 +1,47 @@
+[
+    {
+        "orgId": "9cfcc39d-dac2-424d-9df6-8a15f6a2a81a",
+        "nom": "Service citoyen du MEA",
+        "customElementName": "mea-service-exemple",
+        "description": "Service citoyen du Ministère exemple A",
+        "chemin": "pes-mea",
+        "version": "1.0.0",
+        "signature": "",
+        "url": "http://localhost:4200/webcomponent.js",
+        "status": "actif",
+        "public": false,
+        "healthcheck": "http://localhost:4200/healthcheck",
+        "endpointsRelationAffaire": "http://localhost:4200/api/verifier-acces-citoyen",
+        "endpointDemandeEnCours": "http://localhost:4200/api/liste-dossier"
+    },
+    {
+        "orgId": "9bdcc3e4-904d-406e-9fc6-75f74856354c",
+        "nom": "Service citoyen du MEB",
+        "customElementName": "meb-srv-citoyen",
+        "description": "Service citoyen du Ministère exemple B",
+        "chemin": "pes-meb",
+        "version": "1.0.5",
+        "signature": "",
+        "url": "http://localhost:3002/static/app-a/components.js",
+        "status": "actif",
+        "public": false,
+        "healthcheck": "http://localhost:5276/healthcheck",
+        "endpointsRelationAffaire": "http://localhost:5275/api/verifier-acces-citoyen",
+        "endpointDemandeEnCours": "http://localhost:5275/api/liste-dossier"
+    },
+    { 
+        "orgId": "03d5fa25-0701-446f-8bd0-ad302b579b8c",
+        "nom": "Service citoyen du MEX",
+        "customElementName": "mex-sev-citoyen",
+        "description": "Service citoyen du Ministère exemple X",
+        "chemin": "pes-mex",
+        "version": "1.0.0",
+        "signature": "",
+        "url": "http://localhost:3007/static/app-a/components.js",
+        "status": "inactif",
+        "public": true,
+        "healthcheck": "http://localhost:3007/healthcheck",
+        "endpointsRelationAffaire": "http://localhost:3007/api/verifier-acces-citoyen",
+        "endpointDemandeEnCours": "http://localhost:3007/api/liste-dossier"
+    }
+]
