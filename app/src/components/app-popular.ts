@@ -10,7 +10,7 @@ import { ServicesController } from '../registre/services-controller';
 export class AppPopular extends LitElement {
     @consume({context: servicesContext, subscribe: true })
     @property({attribute: false})
-    private services: ServicesController
+    private services?: ServicesController
 
     //TODO: Ajouter une métrique pour trier les services les plus consultés
     render() {
@@ -21,7 +21,7 @@ export class AppPopular extends LitElement {
         
         <nav aria-labelledby="en-demande-titre-113622">
         <ul class="en-demande-liste">
-        ${this.services.render({
+        ${this.services?.render({
             complete: (result: Registre.Services) => html`
               ${result.map(i => html`<li><a title="${i.description}" href="${i.chemin}">${i.nom}</a></li>`)}
             `,

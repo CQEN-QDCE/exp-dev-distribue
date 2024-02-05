@@ -135,6 +135,7 @@ node_modules
 jspm_packages
 npm-debug.log
 yarn-error.log
+*/types
 
 # IDEs and editors
 .idea/

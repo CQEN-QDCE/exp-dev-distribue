@@ -32,11 +32,11 @@ interface State {
 export class AppService extends LitElement {
     @provide({context: organismesContext})
     @property({ attribute: false })
-    private organismes = new OrganismesController(this);
+    organismes = new OrganismesController(this);
 
     @provide({context: servicesContext})
     @property({ attribute: false })
-    private services = new ServicesController(this);
+    services = new ServicesController(this);
   
     //Current state
     currentState: State;
