@@ -67,4 +67,35 @@ TODO
 
 ### Version mobile
 
-TODO
+Pour produire la version mobile de l'application, l'outil d'exécution **capacitor** (d'[Ionic](https://capacitorjs.com/)) s'avère comme l'outil le plus générique ou neutre à être utilisé.
+
+Dans le cas de cette application, il faut exécuter le script [pack_app.sh](scripts/mobile/pack_app.sh) pour générer la version packagée de l'application qui pourra être téléchargée par exemple à Google Play.
+
+:warning: S'assurer que le répertoire dist existe (après exécution de la commande ``build``)
+```pnpm build```
+
+Le script mentionné a besoin de deux paramètres suivants:
+- 1er: le nom de l'application
+- 2ème: Un id pour le paquet de l'application, qui devrait être unique
+
+Un exemple de commande:
+```bash
+./scripts/mobile/pack_app.sh services-gouv com.edd.app
+```
+
+Le script installe les plugins nécessaires et produit le composant a être téléchargé au fournisseur mobile (Google Play).
+
+Le composant packagé (app-release.aab), doit se trouver dans le répertoire android/app/build/outputs/bundle/release/
+
+- Information additionnelle: C'est recommandé de générer une pair de clès pour encrypter et signer le composant qui sera téléchargé et publié pour installation en version mobile.
+
+    * Génération d'une pair de clés avec l'outil keytool:
+
+    ```bash
+    keytool -genkey -v -keystore android-upload-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias android-upload-key
+    ``` 
+
+    * Signature du composant (de l'application packagée) à être téléchargé:
+    ```bash
+    jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ~/path/to/your/keystore/android-upload-key.jks -signedjar app-signed-release.aab app-release.aab android-upload-key    
+    ```
