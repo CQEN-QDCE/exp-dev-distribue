@@ -2,7 +2,6 @@ import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { SESSION_STORAGE_ACCESS_TOKEN, SESSION_STORAGE_ID_TOKEN, WINDOW_EVENT_AUTH } from '../constants';
 import { environment } from '../environment';
-import { APP_NOTIFICATIONS_TAG } from './app-notifications';
 
 /**
  * Composant d'authentification de l'utilisateur.
@@ -87,20 +86,7 @@ export class AppAuth extends LitElement {
     this.userName = userInfo.name;
     window.dispatchEvent(new CustomEvent(WINDOW_EVENT_AUTH, { detail: tokens.access_token }));
     this.requestTokenAfterAccessTokenExpires(tokens);
-    this.setUserIdOnNotifications(userInfo.sub);
     this.requestUpdate();
-  }
-
-  /**
-   * Chercher les composants coquille-notifications et ajouter l'attribut userId
-   * Ceci permettra de cibler les notifications envoyées par websocket uniquement à l'utilisateur concerné.
-   * @param sub
-   */
-  setUserIdOnNotifications(sub: string) {
-    const notifications = document.getElementsByTagName(APP_NOTIFICATIONS_TAG);
-    for (let i = 0; i < notifications.length; i++) {
-      notifications[i].setAttribute('userId', sub);
-    }
   }
 
   /**

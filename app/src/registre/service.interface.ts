@@ -4,12 +4,13 @@ export interface Service {
     customElementName: string;
     description: string;
     chemin: string;
-    version?: string;
+    version: string;
     signature?: string;
     url?: string;
-    status?: "actif" | "inactif";
+    status: "actif" | "inactif";
     public: boolean;
-    healthcheck: string;
+    healthcheck?: string;
     endpointsRelationAffaire?: string;
     endpointDemandeEnCours?: string;
+    renderFunction?: Function;
 }
