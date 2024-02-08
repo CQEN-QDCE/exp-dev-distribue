@@ -87,7 +87,7 @@ Le script installe les plugins nécessaires et produit le composant a être tél
 
 Le composant packagé (app-release.aab), doit se trouver dans le répertoire android/app/build/outputs/bundle/release/
 
-- Information additionnelle: C'est recommandé de générer une pair de clès pour encrypter et signer le composant qui sera téléchargé et publié pour installation en version mobile.
+- Information additionnelle: Il est recommandé de générer une paire de clés pour encrypter et signer le composant qui sera téléchargé et publié pour installation en version mobile. Les outils utilisés sont disponibles dans le [Java Development Kit](https://fr.wikipedia.org/wiki/Java_Development_Kit). Nous recommandons celle du project [OpenJDK](https://openjdk.org/).
 
     * Génération d'une pair de clés avec l'outil keytool:
 
