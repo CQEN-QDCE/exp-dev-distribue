@@ -95,7 +95,7 @@ Le composant packagé (app-release.aab), doit se trouver dans le répertoire and
     keytool -genkey -v -keystore android-upload-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias android-upload-key
     ``` 
 
-    * Signature du composant (de l'application packagée) à être téléchargé:
+    * Signature de l'application Android à être téléchargée:
     ```bash
     jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ~/path/to/your/keystore/android-upload-key.jks -signedjar app-signed-release.aab app-release.aab android-upload-key    
     ```
