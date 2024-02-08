@@ -69,7 +69,7 @@ TODO
 
 Pour produire la version mobile de l'application coquille, la couche d’accès multi-plateformes **capacitor** (d'[Ionic](https://capacitorjs.com/)) est utilisé comme outil d'empaquetage.
 
-Dans le cas de cette application, il faut exécuter le script [pack_app.sh](scripts/mobile/pack_app.sh) pour générer la version packagée de l'application qui pourra être téléchargée par exemple à Google Play.
+Dans le cas présenté, le script [pack_app.sh](scripts/mobile/pack_app.sh) permet de générer la version Android de l'application qui pourra être téléchargée, par exemple, à Google Play.
 
 :warning: S'assurer que le répertoire dist existe (après exécution de la commande ``build``)
 ```pnpm build```
