@@ -67,7 +67,7 @@ TODO
 
 ### Version mobile
 
-Pour produire la version mobile de l'application, l'outil d'exécution **capacitor** (d'[Ionic](https://capacitorjs.com/)) s'avère comme l'outil le plus générique ou neutre à être utilisé.
+Pour produire la version mobile de l'application coquille, la couche d’accès multi-plateformes **capacitor** (d'[Ionic](https://capacitorjs.com/)) est utilisé comme outil d'empaquetage.
 
 Dans le cas de cette application, il faut exécuter le script [pack_app.sh](scripts/mobile/pack_app.sh) pour générer la version packagée de l'application qui pourra être téléchargée par exemple à Google Play.
 
