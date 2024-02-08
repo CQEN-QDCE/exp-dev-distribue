@@ -89,7 +89,7 @@ Le composant packagé (app-release.aab), doit se trouver dans le répertoire and
 
 - Information additionnelle: Il est recommandé de générer une paire de clés pour encrypter et signer le composant qui sera téléchargé et publié pour installation en version mobile. Les outils utilisés sont disponibles dans le [Java Development Kit](https://fr.wikipedia.org/wiki/Java_Development_Kit). Nous recommandons celle du project [OpenJDK](https://openjdk.org/).
 
-    * Génération d'une pair de clés avec l'outil keytool:
+    * Génération d'une paire de clés avec l'outil `keytool`:
 
     ```bash
     keytool -genkey -v -keystore android-upload-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias android-upload-key
