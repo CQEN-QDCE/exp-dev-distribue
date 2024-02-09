@@ -11,7 +11,7 @@ participant "Coquille" as coquille
 database "Session\nstorage" as coquille_storage
 participant "Service d'authentification" as svc_auth
 database "Service Auth \nSession cookie" as sa_cookie
-participant "Manifestes" as svc_manifests
+participant "Registre" as svc_registe
 end box
 box Fournisseur d'authentification
 participant "Service OIDC" as oidc
@@ -25,7 +25,6 @@ end box
 
 activate user
     user -> coquille : Accède à la coquille
-    note right : https://coquille.org/
     activate coquille
         coquille --x coquille_storage : Vérifier si utilisateur \nn'est pas authentifié\n(aucun jeton ne devrait\nêtre stocké)
         user <-- coquille : Redirection vers le service d'authentification
@@ -36,12 +35,12 @@ deactivate user
 activate svc_auth
     svc_auth --x sa_cookie : Lit le cookie de session \n(aucun cookie)
     svc_auth <--> svc_auth : Confirme que l'utilisateur \nn'est pas authentifié
-    user <-- svc_auth : Rediection vers le fournisseur d'authentification (OIDC: KC/SAG)
+    user <-- svc_auth : Redirection vers le fournisseur d'authentification OIDC
 deactivate svc_auth
 
 activate user
-    note right of user : https://fournisseur-oidc.org/auth?client-id=coquille&scopes=...&state=...&nonce=...
-    user -> oidc : Accès au fournisseur d'authetification
+    note right of user : /auth?client-id=coquille&scopes=...&state=...&nonce=...
+    user -> oidc : Accès au fournisseur d'authentification
 deactivate user
 
 activate oidc
@@ -58,7 +57,7 @@ activate oidc
 deactivate oidc
 
 activate user
-    note right of user : GET https://auth.coquille.org/auth_callback?code=...
+    note right of user : GET /auth_callback?code=...
     user -> svc_auth : Accède au Service d'authentification
     activate svc_auth
         svc_auth -> oidc : Échange le code d'accès contre les tokens
@@ -72,7 +71,7 @@ deactivate user
 activate coquille 
     coquille -> svc_auth : Demande les tokens pour l'utilisateur
     activate svc_auth
-        note right : https://auth.coquille.org/auth?no_auth=true \ncredentials: true (cookie headers)
+        note right : /auth?no_auth=true \ncredentials: true (cookie headers)
         svc_auth o<-- sa_cookie : Lit les tokens dans les cookies
         coquille <-- svc_auth : Retourne les tokens
         note left
@@ -82,43 +81,19 @@ activate coquille
             }
         endnote 
         coquille -->o coquille_storage : Stocke les jetons
-        coquille -> svc_manifests : Demande la liste des manifestes
-        svc_manifests <--> svc_manifests : Obtient la liste des manifestes\n(mécanisme de persistence et \nrécupération à déterminer)
-        coquille <-- svc_manifests
-        note left 
-        Exemple non déclaratif d'un array avec un manifeste :
-        [
-            {
-                titre: "Contributeur A",
-                description: "Un contributeur qui offre des services",
-                clientId: "contributeur-a",
-                urls: {
-                    healthcheck: "https://contributeur.org/healthcheck",
-                    ...
-                },
-                composants: [
-                    {
-                        nom: "Nom du composant du contributeur",
-                        tagName: "contributeur-a",
-                        chemin: "contributeurA",
-                        url: "https://cdn.contributeur.org/components.js",
-                        ...
-                    },
-                ],
-            },
-            ...,
-        ]
-        endnote
+        coquille -> svc_registre : Demande la liste des services
+        svc_registre <--> svc_registre : Obtient la liste des services
+        coquille <-- svc_registre
         user <-- coquille : Afficher la coquille avec contexte
         activate user
-            user -> coquille : Utilisateur navigue vers le composant\ndu contributeur désiré
+            user -> coquille : Utilisateur navigue vers le service \n du contributeur désiré
         deactivate user
         coquille o<-- coquille_storage : Lit le jeton d'accès \n(celui octroyé pour \nl'accès à la coquille)
-        coquille -> svc_auth : Demande un jeton pour le composant,\nen échange du jeton d'accès initial
-        note right : https://auth.coquille.org/auth/token?no_auth=true&client-id=[...]&token=[...]
+        coquille -> svc_auth : Demande un jeton pour le composant,\n en échange du jeton d'accès initial
+        note right : /auth/token?no_auth=true&client-id=[...]&token=[...]
         svc_auth -> oidc : Demande un jeton pour le \nclient_id du contributeur \nvia //token exchange//
         activate oidc
-            note right : https://fournisseur-oidc.qc.ca/token
+            note right : /token
             svc_auth <-- oidc : Reçoit un jeton pour le client_id désiré
         deactivate oidc
         coquille <-- svc_auth
@@ -127,9 +102,9 @@ activate coquille
 deactivate coquille
 
 activate op_wc
-    op_wc -> op_api : Le composant appelle son API \net fourni le token dans le header
+    op_wc -> op_api : Le composant appelle son API \net fourni le token dans l'entête
     note right
-        https://api.coquille.org/api/[...]
+        /api/[...]
         headers : **Authentication = "bearer [token]"**
     endnote
     activate op_api
