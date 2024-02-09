@@ -67,4 +67,35 @@ TODO
 
 ### Version mobile
 
-TODO
+Pour produire la version mobile de l'application coquille, la couche d’accès multi-plateformes **capacitor** (d'[Ionic](https://capacitorjs.com/)) est utilisé comme outil d'empaquetage.
+
+Dans le cas présenté, le script [pack_app.sh](scripts/mobile/pack_app.sh) permet de générer la version Android de l'application qui pourra être téléchargée, par exemple, à Google Play.
+
+:warning: S'assurer que le répertoire dist existe (après exécution de la commande ``build``)
+```pnpm build```
+
+Le script mentionné a besoin de deux paramètres suivants:
+- 1er: le nom de l'application
+- 2ème: Un id pour le paquet de l'application, qui devrait être unique
+
+Un exemple de commande:
+```bash
+./scripts/mobile/pack_app.sh services-gouv com.edd.app
+```
+
+Le script installe les plugins nécessaires et produit le composant a être téléchargé au fournisseur mobile (Google Play).
+
+Le composant packagé (app-release.aab), doit se trouver dans le répertoire android/app/build/outputs/bundle/release/
+
+- Information additionnelle: Il est recommandé de générer une paire de clés pour encrypter et signer le composant qui sera téléchargé et publié pour installation en version mobile. Les outils utilisés sont disponibles dans le [Java Development Kit](https://fr.wikipedia.org/wiki/Java_Development_Kit). Nous recommandons celle du project [OpenJDK](https://openjdk.org/).
+
+    * Génération d'une paire de clés avec l'outil `keytool`:
+
+    ```bash
+    keytool -genkey -v -keystore android-upload-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias android-upload-key
+    ``` 
+
+    * Signature de l'application Android à être téléchargée:
+    ```bash
+    jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ~/path/to/your/keystore/android-upload-key.jks -signedjar app-signed-release.aab app-release.aab android-upload-key    
+    ```

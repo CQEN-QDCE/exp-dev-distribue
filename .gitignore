@@ -166,3 +166,8 @@ typings
 # System files
 .DS_Store
 Thumbs.db
+
+# mobile
+android
+ios
+capacitor.config.ts
