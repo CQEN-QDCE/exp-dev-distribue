@@ -28,5 +28,3 @@ npx cap sync;
 
 cd android;
 ./gradlew bundle;
-
-exit 1; 
