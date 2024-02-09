@@ -1,22 +1,25 @@
 #!/bin/bash
-# Script to build the mobile package of this app with capacitor-cli
+# Obtenir le packetage mobile de cette application avec l'outil capacitor-cli
 
-# Use: ./package.sh <appName> <appId>
-# - appName: This should be a human-friendly app name, like what you'd see in the App Store
-# - appId: Package IDs (aka Bundle ID in iOS and Application ID in Android) are unique identifiers for apps. They must be in reverse domain name notation, generally representing a domain name that you or your company owns.
+# Usage: ./package.sh <appNom> <appId>
+# - appNom: Un nom public facile pour l'application, qui sera vue dans le "App Store".
+# - appId: Identifiants de paquets ("Bundle ID" pour iOS et "Application ID" pour Android). 
+#           Ces identifiants doivent:
+#           - Être uniques pour chaque application.
+#           - Correspondre à des noms de domaines inversés ("reverse-DNS"). Par exemple domain de la compagnie: "exemple.com", alors l'identifiant du paquet de l'application pourrait être "exemple.com.monproduit"
 
-# install @capacitor cli and core
-echo "about to install @capacitor/cli"
+# Installer @capacitor cli et @capactor core
+echo "Installation de @capacitor/cli"
 npm install @capacitor/cli @capacitor/core
 
-# remove capacitor config if it exists
+# Effacer le fichier de configuration du capacitor s'il existe
 rm -f capacitor.config.ts;
 
-#initialize capacitor
-echo "Initializing capacitor"
+# Initialiser capacitor
+echo "Initialiser capacitor"
 npx cap init $1 $2;
 
-# install capacitor android and ios plugins
+# Installer les plugins capacitor d'android et ios
 npm install @capacitor/android @capacitor/ios;
 npx cap add android;
 npx cap add ios;
