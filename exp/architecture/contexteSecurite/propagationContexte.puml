@@ -1,0 +1,127 @@
+@startuml Propagation du contexte de sécurité
+
+autonumber 1
+skinparam BoxPadding 60
+skinparam Padding 5
+skinparam ParticipantPadding 60
+
+participant "Utilisateur" as user
+box Mainteneur
+participant "Coquille" as coquille
+database "Session\nstorage" as coquille_storage
+participant "Service d'authentification" as svc_auth
+database "Service Auth \nSession cookie" as sa_cookie
+participant "Registre" as svc_registe
+end box
+box Fournisseur d'authentification
+participant "Service OIDC" as oidc
+database "Session OIDC \ncookie" as oidc_cookie
+end box
+
+box Micro-frontend du contributeur
+participant "Web Component (UI)" as op_wc
+participant "Service (API)" as op_api
+end box
+
+activate user
+    user -> coquille : Accède à la coquille
+    activate coquille
+        coquille --x coquille_storage : Vérifier si utilisateur \nn'est pas authentifié\n(aucun jeton ne devrait\nêtre stocké)
+        user <-- coquille : Redirection vers le service d'authentification
+    deactivate coquille
+    user -> svc_auth : Accède au service d'authentification
+deactivate user
+
+activate svc_auth
+    svc_auth --x sa_cookie : Lit le cookie de session \n(aucun cookie)
+    svc_auth <--> svc_auth : Confirme que l'utilisateur \nn'est pas authentifié
+    user <-- svc_auth : Redirection vers le fournisseur d'authentification OIDC
+deactivate svc_auth
+
+activate user
+    note right of user : /auth?client-id=coquille&scopes=...&state=...&nonce=...
+    user -> oidc : Accès au fournisseur d'authentification
+deactivate user
+
+activate oidc
+    oidc --x oidc_cookie : Lit le cookie de session \n(aucun cookie)
+    oidc <--> oidc : Confirme qu'aucune session n'est active
+    user <-- oidc : Affiche la page d'authentification
+    activate user
+        note right of user : Selon le fournisseur OIDC, il pourrait y avoir plus d'une page
+        user -> oidc : Saisit les informations d'authentification
+    deactivate user
+    oidc <--> oidc : Démarre une session OIDC
+    oidc --> oidc_cookie : Stocke la session dans un cookie\n(et aussi dans la base de données)
+    user <-- oidc : Redirige vers le Service d'authentification
+deactivate oidc
+
+activate user
+    note right of user : GET /auth_callback?code=...
+    user -> svc_auth : Accède au Service d'authentification
+    activate svc_auth
+        svc_auth -> oidc : Échange le code d'accès contre les tokens
+        svc_auth <-- oidc : Retourne un __id_token__ et un __access_token__
+        svc_auth -->o sa_cookie : Retourne un header pour créer le \ncookie de session (ce cookie sera \nutilisé lors des appels asynchrones \nà partir de la coquille)
+        user <-- svc_auth : Redirection vers la coquille
+    deactivate svc_auth
+    user -> coquille :
+deactivate user
+
+activate coquille 
+    coquille -> svc_auth : Demande les tokens pour l'utilisateur
+    activate svc_auth
+        note right : /auth?no_auth=true \ncredentials: true (cookie headers)
+        svc_auth o<-- sa_cookie : Lit les tokens dans les cookies
+        coquille <-- svc_auth : Retourne les tokens
+        note left
+            {
+                token: "...",
+                id_token: "..."
+            }
+        endnote 
+        coquille -->o coquille_storage : Stocke les jetons
+        coquille -> svc_registre : Demande la liste des services
+        svc_registre <--> svc_registre : Obtient la liste des services
+        coquille <-- svc_registre
+        user <-- coquille : Afficher la coquille avec contexte
+        activate user
+            user -> coquille : Utilisateur navigue vers le service \n du contributeur désiré
+        deactivate user
+        coquille o<-- coquille_storage : Lit le jeton d'accès \n(celui octroyé pour \nl'accès à la coquille)
+        coquille -> svc_auth : Demande un jeton pour le composant,\n en échange du jeton d'accès initial
+        note right : /auth/token?no_auth=true&client-id=[...]&token=[...]
+        svc_auth -> oidc : Demande un jeton pour le \nclient_id du contributeur \nvia //token exchange//
+        activate oidc
+            note right : /token
+            svc_auth <-- oidc : Reçoit un jeton pour le client_id désiré
+        deactivate oidc
+        coquille <-- svc_auth
+    deactivate svc_auth
+    coquille -> op_wc : Instancie le composant du contributeur en fournissant le token obtenu par //token exchange//
+deactivate coquille
+
+activate op_wc
+    op_wc -> op_api : Le composant appelle son API \net fourni le token dans l'entête
+    note right
+        /api/[...]
+        headers : **Authentication = "bearer [token]"**
+    endnote
+    activate op_api
+        op_api <--> op_api : Validation des CORS
+        op_api <--> op_api : Validation du jeton \n(signature, audience, expiration)
+        op_wc <-- op_api : Reçoit les données demandées
+    deactivate op_api
+    note left
+        {
+            valeur_A : "....",
+            valeur_B : "....",
+            etc....
+        }
+    endnote
+    user <-- op_wc : Affiche le contenu sécurisé
+deactivate op_wc
+
+activate user
+
+@enduml 
