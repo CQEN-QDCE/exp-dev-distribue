@@ -1,5 +1,5 @@
 /**
- * Évènements personnalisés propagé et écouté par la plarteforme coquille 
+ * Évènements personnalisés propagé et écouté par la plateforme coquille 
  * 
  * Ce fichier de définition peut être ajouté à un web component Typescript pour aider à la 
  * propagation d'évènements compatibles
