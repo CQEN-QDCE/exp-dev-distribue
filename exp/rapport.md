@@ -91,7 +91,7 @@ En mettant ainsi à profit le modèle de communauté ouverte en libre-service, o
 
 #### 4.1.2 Distribution du service 
 
-L’approche micro-frontend étant par définition une architecture distribuée, celle-ci permet une multitude de modèle de responsabilités en ce qui attrait à l’hébergement des différentes composantes technologiques nécessaires au déploiement d'un service.
+L’approche micro-frontend étant par définition une architecture distribuée, celle-ci permet une multitude de modèle de responsabilités en ce qui a trait à l’hébergement des différentes composantes technologiques nécessaires au déploiement d'un service.
 
 L’expérimentation a d’abord tenté d’imaginer divers scénarios possibles.  
 
@@ -163,7 +163,7 @@ Les outils disponibles pour développer des applications hybrides se divisent en
 
     Par contre, l’application étant dans les faits exécutée par le navigateur, celle-ci se limite à l’accès aux fonctionnalités natives de celui-ci. Bien que [de plus en plus de fonctionnalités soit standardisées et rendues accessibles au navigateur](https://whatpwacando.today/), il y aura toujours un certain fossé avec ce que l’exécution native peut offrir. 
 
-    Au moins un outil permet cependant d’empaqueter une PWA dans une application native mobile: [PWA Builder](https://docs.pwabuilder.com). Par contre, l’outil ne change rien à l’accès au fonctionnalités native et dépend de la méthode d’hébergement de l’application. Son principal attrait consiste à rendre disponible la distribution de l’application via les *app stores* des fournisseurs mobiles.
+    Au moins un outil permet cependant d’empaqueter une PWA dans une application native mobile: [PWA Builder](https://docs.pwabuilder.com). Cependant, l’outil ne change rien à l’accès au fonctionnalités native et dépend de la méthode d’hébergement de l’application. Son principal attrait consiste à rendre disponible la distribution de l’application via les *app stores* des fournisseurs mobiles.
 
 * **Couche d’accès multi-plateformes**
 
@@ -268,7 +268,7 @@ On peut donc développer une application Angular selon les patrons habituels et 
 
 Angular utilise déjà des éléments personnalisés pour ses composants. Même si ceux-ci ne sont pas convertis via le *package* `elements`, ils se retrouvent dans le document HTML et sont pris en charge par le framework. Il faut donc s'assurer que les éléments des composants n'entrent pas en collision avec ceux des *web components* présents dans le document. Pour éviter cela, il faut s'assurer de prefixer tous les composants et éléments d'un service avec un prefix unique.
 
-Tous les web components instanciés dans un document HTML peuvent interagir avec l'API du navigateur sans discrimination. Ceci peut devenir problématique si plusieurs composants basent leur comportement sur un même API. Presque tous les *framework* de développement *frontend* utilisent par défaut un [mode de routage](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Introduction#routing) des composants basé sur la barre d'adresse. Le composant exemple Augular devant naviguer entre trois page de son formulaire a du changer le mode de routage par défaut, pour s'assurer de ne pas interférer avec le routage de l'application coquille.
+Tous les web components instanciés dans un document HTML peuvent interagir avec l'API du navigateur sans discrimination. Ceci peut devenir problématique si plusieurs composants basent leur comportement sur un même API. Presque tous les *framework* de développement *frontend* utilisent par défaut un [mode de routage](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Introduction#routing) des composants basés sur la barre d'adresse. Le composant exemple Angular devant naviguer entre trois pages de son formulaire a du changer le mode de routage par défaut, pour s'assurer de ne pas interférer avec le routage de l'application coquille.
 
 L'exemple suivant montre comment naviguer dans le composant Angular sans interaction avec la barre d'adresse en ajoutant le [paramètre de configuration `skipLocationChange`](https://angular.io/api/router/NavigationBehaviorOptions#skipLocationChange) aux appels de la fonction `navigate`:
 ```typescript
@@ -285,9 +285,9 @@ export class FormulaireComponent {
 }
 ```
 
-Une application coquille à la base d'une application distribuée devraient donc régir les règles d'utilisation des API du navigateur. Ce contrôle peut s'effectuer soit en encapsulant les API permis aux composants contribué ou encore en effectuant des tests automatisés qui détecteraient des interactions non permise lors de la contribution d'une composant via l'API développeur.
+Une application coquille à la base d'une application distribuée devraient donc régir les règles d'utilisation des API du navigateur. Ce contrôle peut s'effectuer soit en encapsulant les API permis aux composants contribué ou encore en effectuant des tests automatisés qui détecteraient des interactions non permises lors de la contribution d'une composant via l'API développeur.
 
-Finalement, l'expérimentation s'est heurté à l'absence d'outils pour empaqueté une application Angular en web component distribuable. Bien que le standard soit entièrement supporté, le compilateur Angular ne contient aucune option pour donner en sortie un composant sous forme d'un seul fichier pouvant faire l'objet d'une instruction `import` dans l'application coquille. Il a donc fallu ajouter aux commandes npm du projet un script qui effectue la concaténations des différents fichiers produit par le compilateur et s'assurer que celui-ci n'incluait pas de script externe au *web component*, comme des [librairies polyfills](https://developer.mozilla.org/fr/docs/Glossary/Polyfill) ou encore des dépendances externes.
+Finalement, l'expérimentation s'est heurtée à l'absence d'outils pour empaqueter une application Angular en web component distribuable. Bien que le standard soit entièrement supporté, le compilateur Angular ne contient aucune option pour donner en sortie un composant sous forme d'un seul fichier pouvant faire l'objet d'une instruction `import` dans l'application coquille. Il a donc fallu ajouter aux commandes `npm` du projet un script qui effectue la concaténation des différents fichiers produit par le compilateur et s'assurer que celui-ci n'incluait pas de script externe au *web component*, comme des [librairies polyfills](https://developer.mozilla.org/fr/docs/Glossary/Polyfill) ou encore des dépendances externes.
 
 L'exemple implémenté dans l'expérimentation n'a pas fait la validation complète de ce qui a été inclus par le compilateur. Le code compilé étant minifié il est difficile d'en faire une analyse statique valide. Par contre, un test qui analyse les modifications à l'espace global javascript d'un navigateur lors de la contribution du composant peut s'assurer que le code compilé ne déclare que le *web component* dans le document HTML. 
 
@@ -295,9 +295,9 @@ L'exemple implémenté dans l'expérimentation n'a pas fait la validation compl�
 
 La distribution de composantes *microfrontend* distribué doit être orchestrée au sein d'un point d'accès unique. Dans l'expérimentation, ce point d'accès prend la forme d'une application hybride web/mobile dite "coquille". L'application coquille offre des fonctionnalités aux services qu'elle distribue, telle que l'authentification, l'accès au navigateur et l'application des règles logicielles encadrant ceux-ci. Elle orchestre l'accès aux services en exploitant le registre qui documente leur emplacement, leur version et leur condition d'accès.
 
-Le registre des service est un API s'adressant aux contributeurs de services et à l'application coquille. Comme son nom l'indique, il tient un registre des services rendus disponibles sur la plateforme. D'un coté, les contributeurs utilisent l'API pour inscrire et mettre à jour leurs services. De l'autre l'application coquille obtient les informations sur les services et les distribuent en conséquence.
+Le registre des services est un API s'adressant aux contributeurs de services et à l'application coquille. Comme son nom l'indique, il tient un registre des services rendus disponibles sur la plateforme. D'un côté, les contributeurs utilisent l'API pour inscrire et mettre à jour leurs services. De l'autre l'application coquille obtient les informations sur les services et les distribuent en conséquence.
 
-Le registre n'a pas été implémenté dans le cadre de l'expérimentation. L'interaction de la coquille avec celui-ci à cependant été simulée grace à [deux fichiers de données](../app/public/assets/registre). Ceux-ci explore la structure de donnée d'un potentiel registre et sont obtenus par la coquille lors de son démarrage. La coquille d'adapte dynamiquement aux données du registre et permet l'ajout de services sans intervention dans son code.
+Le registre n'a pas été implémenté dans le cadre de l'expérimentation. L'interaction de la coquille avec celui-ci a cependant été simulée grâce à [deux fichiers de données](../app/public/assets/registre). Ceux-ci explorent la structure de donnée d'un potentiel registre et sont obtenus par la coquille lors de son démarrage. La coquille d'adapte dynamiquement aux données du registre et permet l'ajout de services sans intervention dans son code.
 
 Dans l’expérimentation, l’implémentation de l’application coquille elle-même a été réalisée dans une architecture logicielle basée sur les *web component*. La librairie javascript [Lit](https://lit.dev/) a été utilisé pour découper l’application en composants “locaux” et explorer le principe avant d’implémenter le prototype d‘un premier service distribué.
 
@@ -321,13 +321,13 @@ export class AppService extends LitElement {
 
 Le composant local `app-service` joue le rôle de contrôleur applicatif. Il assure l'injection des dépendances telle que le service de registre, implémente le routage vers les services contribués et assurent l'import dynamique de ceux-ci dans un composant d'isolation.
 
-Ce composant d'isolation assure l'uniformité des condition d'import des composants contribué. Il isole d'abord le composant en activant sur lui-même un [*shadow dom*](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) fermé. Puis il réalise l'import du composant et l'insertion de son élément personnalisé dans son propre DOM. La responsabilité de l'instanciation du composant lui permet par le fait même de passer des paramètres à celui-ci tel que le jeton de session de l'usager par exemple. 
+Ce composant d'isolation assure l'uniformité des conditions d'import des composants contribué. Il isole d'abord le composant en activant sur lui-même un [*shadow dom*](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) fermé. Puis il réalise l'import du composant et l'insertion de son élément personnalisé dans son propre DOM. La responsabilité de l'instanciation du composant lui permet par le fait même de passer des paramètres à celui-ci tel que le jeton de session de l'usager par exemple. 
 
-Le composant `app-service` assure aussi la navigation vers les composants contribués en assurant les fonctionnalités de routage. Des url uniques sont assigné à chaque composant via le registre des services et les fonctionnalités de routage exploitent la barre d'adresse pour assurer la navigation. Ceci permet d'assigner des url uniques pour chaque service en plus d'offrir des services de navigation aux composants de la coquille.
+Le composant `app-service` assure aussi la navigation vers les composants contribués en assurant les fonctionnalités de routage. Des url uniques sont assignées à chaque composant via le registre des services et les fonctionnalités de routage exploitent la barre d'adresse pour assurer la navigation. Ceci permet d'assigner des url uniques pour chaque service en plus d'offrir des services de navigation aux composants de la coquille.
 
-Les services aux composants sont implémentés dans un *pattern* événementiel. Les composants, étant isolés de la coquille, ne peuvent pas invoquer directement des fonctions exposés sur celui-ci. Ils doivent émettre des [événements](https://developer.mozilla.org/fr/docs/Web/API/Event) qui sont écoutés par la coquille. Ces événements pouvant transporter des données, on peut offrir un API complet aux composants.
+Les services aux composants sont implémentés dans un *pattern* événementiel. Les composants, étant isolés de la coquille, ne peuvent pas invoquer directement des fonctions exposées sur celui-ci. Ils doivent émettre des [événements](https://developer.mozilla.org/fr/docs/Web/API/Event) qui sont écoutés par la coquille. Ces événements pouvant transporter des données, on peut offrir un API complet aux composants.
 
-Voici un exemple d'un composant qui invoque la fonctionnalité de navigation de la coquille. Notez ici les paramètres de l’événement [`bubbles`](https://developer.mozilla.org/fr/docs/Web/API/Event/bubbles) et [`composed`](https://developer.mozilla.org/en-US/docs/Web/API/Event/composed) qui assurent que l’événement sont diffusé au delà du *shadow-dom* du composant:
+Voici un exemple d'un composant qui invoque la fonctionnalité de navigation de la coquille. Notez ici les paramètres de l’événement [`bubbles`](https://developer.mozilla.org/fr/docs/Web/API/Event/bubbles) et [`composed`](https://developer.mozilla.org/en-US/docs/Web/API/Event/composed) qui assurent que l’événement sont diffusé au-delà du *shadow-dom* du composant:
 ```Typescript
 onBtnQuitterClick() {
         let eventQuitter = new CustomEvent<NavigateEventDetail>("navigate-custom-event", {
@@ -343,20 +343,42 @@ onBtnQuitterClick() {
     }
 ```
 
-Typescript permet de typer et de documenter les événements écoutés par la plateforme coquille des fichiers de module importables dans d'autres projet Typescript. Un [exemple](../app/src/definitions/customEvents.d.ts) est définis dans le prototype de coquille et utilisé dans le prototype de *micro frontend*. Ceci permet une comptabilité totale entre les événements émis et ceux écoutés.
+Typescript permet de typer et de documenter les événements écoutés par la plateforme coquille des fichiers de module importables dans d'autres projet Typescript. Un [exemple](../app/src/definitions/customEvents.d.ts) est définis dans le prototype de coquille et utilisé dans le prototype de *micro frontend*. Ceci permet une compatibilité totale entre les événements émis et ceux écoutés.
 
-Le prototype produit dans le cadre de l'expérimentation jette les bases d'une coquille de plateforme. Certaines questions n'ont pas été explorées en détail dans le prototype mais méritent d'être soulevées. Celles-ci incluent de manière non exhaustives:
+Le prototype produit dans le cadre de l'expérimentation jette les bases d'une coquille de plateforme. Certaines questions n'ont pas été explorées en détail dans le prototype mais méritent d'être soulevées. Celles-ci incluent de manière non exhaustive:
 * La gestion des erreurs;
 * La synchronisation de l'affichage des composants;
 * La composition de services multiples.
 
 #### 4.2.5 Authentification unique et propagation de session utilisateur 
 
-> Token exchange 
+Le premier service qu'une application coquille d'une plateforme distribuée devrait offrir est l'authentification unique. En effet, pour offrir une expérience utilisateur cohérente, une plateforme de service unifié doit permettre d'accéder à ses services contribués de manière fluide et transmettre la session utilisateur aux services de manière transparente. 
 
-#### 4.2.6 Couche d’accès aux fonctionnalités mobiles natives 
+L'expérimentation supposant que la plateforme utiliserait le [service d'authentification gouvernemental](https://www.quebec.ca/gouvernement/faire-affaire-gouvernement/authentification-gouvernementale) basé sur le protocole [OpenId Connect](https://openid.net/developers/how-connect-works/) qui implémente le cadre [OAuth 2.0](https://oauth.net/2/), a choisi d'explorer l’utilisation du standard proposé [Token Exchange](https://www.rfc-editor.org/rfc/rfc8693). 
 
-> Capacitor
+Le produit sur lequel est basé le SAG, Keycloak implémente le standard du *Token Exchange*. Il est, par contre, à noter que la fonctionnalité est en "aperçu technique" au moment d'écrire ce rapport. Il serait impératif d'évaluer indépendamment la stabilité de la fonctionnalité avant de l'inclure dans une éventuelle plateforme. L'expérimentation a quand même analysé l'intégration du standard dans ses processus: [Flux de propagation de contexte utilisateur](https://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/CQEN-QDCE/exp-dev-distribue/main/exp/architecture/contexteSecurite/propagationContexte.puml).
+
+#### 4.2.6 Version mobile de l'application coquille
+
+Pour produire la version mobile de l'application coquille, la couche d’accès multi-plateformes [Capacitor d'Ionic](https://capacitorjs.com/) a été utilisé comme outil d'empaquetage. Publié sous licence MIT, Capacitor s'est démarqué par sa simplicité d'intégration. Il suffit d'installer les paquets dans n'importe quel projet Javascript via le gestionnaire NPM pour intégrer les outils d'empaquetage.
+
+Sans ajouter une seule ligne de code, il a été possible de créer une version Android de l'application coquille fonctionnant à l'identique de sa version web. La procédure d'empaquetage se résumant finalement a un simple script Bash de quelques lignes:
+```bash
+echo "Initialiser capacitor"
+npx cap init $1 $2;
+
+# Installer les plugins capacitor d'android et ios
+npm install @capacitor/android @capacitor/ios;
+npx cap add android;
+npx cap add ios;
+
+npx cap sync;
+
+cd android;
+./gradlew bundle;
+```
+
+L'expérimentation n'a pas eu le temps d'explorer les possibilités de la couche d'accès native offerte par Capacitor. L'intégration de fonctionnalité utilisant le matériel d'appareil mobile pourrait certainement faire l'objet d'une expérimentation subséquente.
 
 ### 4.3 Prototype d’un guide d’intégration et d’assurance qualité 
 
@@ -406,8 +428,8 @@ La validation des règles d’intégration consiste à effectuer des essais de r
 
     Le code de l’interface utilisateur (IU) est responsable de 80 % ou plus du temps de chargement moyen d’une application. Les essais de performances de IU consistent à vérifier le délai de rendu des composants d’interface par le navigateur, il est basé sur le modèle [RAIL de Google](https://web.dev/articles/rail?hl=fr), dont les métriques essentielles sont suivantes : 
 
-    * *Largest Contentful Paint (LCP)*: mesure les performances de chargement. Valeur recommandé : 2.5sec au plus. 
-    * *First Input Delay (FID)*: mesure l'interactivité. Valeur recommandé : 100ms. 
+    * *Largest Contentful Paint (LCP)*: mesure les performances de chargement. Valeur recommandée : 2.5sec au plus. 
+    * *First Input Delay (FID)*: mesure l'interactivité. Valeur recommandée : 100ms. 
     * *CLS (Cumulative Layout Shift)*: mesure la stabilité visuelle. Pour offrir une bonne expérience utilisateur. Valeur recommandée : 0.1 au plus. 
 
     Ces métriques devront être modulées en fonction des expériences des utilisateurs, tenant compte des types d’appareils (ordinateur de bureau, mobile, tablette), de fabricants, selon la bande passante (WiFi, 3G, 4G, 5G),  
@@ -478,11 +500,35 @@ L'hypothèse d'expérimentation avait comme objectif de vérifier si un modèle 
 Il n’a pas été possible de présenter le modèle à d’éventuels contributeurs au moment d’écrire ce rapport. Ce marqueur n’a donc pas été vérifié. 
 
 ### 5.1 Démonstration du modèle avec un prototype web et un prototype mobile 
-[Expérimentation toujours en cours] 
+
+La démonstration du modèle de développement applicatif est un succès:
+
+* ✅ Un prototype d'application de complexité modérée a pu être empaquetée et distribuée sous forme de *web component* standard. 
+* ✅ Un prototype d'application coquille web a pu intégrer un *web component* de manière dynamique et transparente a l'utilisateur.
+* ✅ Le prototype d'application coquille web a pu être empaquetée dans une application Android sans modification au code source confirmant la possibilité d'exploiter un code source unique.
+
+L'Expérimentation recommande toutefois l'exploration plus poussée de certains points:
+
+* ⚠️ Les gestions des librairies inclues en dépendance par certains framework Frontend.
+* ⚠️ La composition de service comportant plusieurs composants.
 
 ### 5.2 Mise à l’échelle du modèle pour une équipe produit 
 
+Le résultat concernant la mise à l'échelle est mitigé. Bien que certains principes semblent indiqué qu'un modèle entièrement décentralisé serait possible, il persiste des doutes sur les impacts qu'il aurait sur la stabilité et l'expérience utilisateur.
+
+* ✅ Le modèle de communauté de développement basé sur un dépôt de code source publique a fait ses preuves depuis longtemps.
+* ✅ Un prototype d'application coquille web a pu intégrer un *web component* de manière dynamique à partir de données obtenues d'un registre des services.
+* ✅ La mise en place d'un registre de service offrant une API s'intégrant aux services de d'intégration et de déploiement continu ne représente pas de défi technique.
+* ✅ Un protocol de tests automatisés basé sur des outils sous licences libres a été réalisé et rendu distribuable.
+* ⚠️ Le modèle proposé n'a pas pu être réellement mis à l'épreuve dans une simulation complète de bout en bout.
+* ⛔ Le modèle de responsabilité proposé devrait accorder beaucoup de confiance aux contributeurs. Il n'a pas été possible d'effectuer une couverture complète de test d'un *web component* sans en connaître les parcours utilisateurs. De la même manière qu'ils assurent la stabilité de leur PES, les contributeurs seraient seuls responsables de la stabilité de leurs services.
+* ⛔ Une gestion des erreurs très robuste contenant un mécanisme d'alerte des contributeurs devraient être mise en place dans l'application coquille. La gestion des erreurs ne prévient ces dernières, des composants contribués instables nuirait à l'expérience utilisateur générale de la plateforme.
+
 ## 6. Conclusion 
+
+Il n'a pas été possible dans le cadre de l'expérimentation de couvrir l'entièreté de l'hypothèse soumise. Les résultats obtenus ont confirmé que l'approche micro frontend était une approche viable et bien supportée par l'écosystème du développement web et mobile. Par contre, il y a certaines réserves concernant le modèle de contribution totalement décentralisé et l'autonomie possible des contributeurs. 
+
+En conclusion, cette expérimentation a ouvert la voie à de nouvelles possibilités pour le développement de services gouvernementaux distribués. Cependant, des recherches supplémentaires et des tests approfondis sont nécessaires pour garantir la stabilité et l'efficacité du modèle proposé.
 
 ## 7. Références 
 
