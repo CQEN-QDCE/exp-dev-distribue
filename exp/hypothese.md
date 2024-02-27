@@ -50,7 +50,7 @@ Pour coordonner les contributions, un dépôt de code source accessible à toute
 
 Pour assurer la mise à l’échelle du modèle de développement, l’automatisation sera essentielle. Des mécanismes permettant de déployer de manière continue les nouvelles versions des applications suite à chaque contribution seront implémentés et documentés. 
 
-Finalement, le modèle de développement distribué sera présenté aux organismes qui pourraient potentiellement y publier des services dans afin de mesurer leur évaluation de la complexité de participation. La prise de commentaires lors de cette deuxième consultation pourrait apporter des modifications au prototype. 
+Finalement, le modèle de développement distribué sera présenté aux organismes qui pourraient potentiellement y publier des services afin de mesurer leur évaluation de la complexité de participation. La prise de commentaires lors de cette deuxième consultation pourrait apporter des modifications au prototype. 
 
 
 ## Références 
