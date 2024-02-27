@@ -23,15 +23,12 @@ La documentation et l'architecture de l'expérimentation est disponible [ici](ex
 
 Voici un aperçu de l'arborescence du dépôt
 
- * [exp](exp) : Documentation de l'expérimentation
- * [docs](docs) : Documentation du prototype
  * [app](app) : Code du prototype applicatif (La coquille)
- * [services](services) : Code du prototype des services aux contributeurs 
- * [exemples](exemples): Code des prototypes de services contribués 
- * [demo](demo) : Orchestration des divers prototypes pour démontrer le modèle 
+ * [exemples](exemples): Code des prototypes de services contribués
+ * [exp](exp) : Documentation de l'expérimentation 
 
  ## Licence
 
-Le code et la documentation de cette expérimentation sont la propriété du Gouvernement du Québec et sont publiés sous la licence libre du Québec - Permissive (LiLiQ-P) version 1.1. 
+Le code et la documentation de cette expérimentation sont la propriété intellectuelle du Gouvernement du Québec et sont publiés sous la licence libre du Québec - Permissive (LiLiQ-P) version 1.1. 
 
 Référez-vous au fichier [LICENCE](LICENCE) pour plus de détails.

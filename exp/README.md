@@ -56,3 +56,6 @@ Comment gère-t-on la publication des changements dans un modèle de développem
 
 ### Flux publication développeur
 ![Diagramme de flux](https://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/CQEN-QDCE/exp-dev-distribue/main/exp/architecture/fluxPublication.puml)
+
+### Flux Token Exchange
+![Diagramme de flux](https://www.plantuml.com/plantuml/proxy?cache=no&fmt=svg&src=https://raw.githubusercontent.com/CQEN-QDCE/exp-dev-distribue/main/exp/architecture/contexteSecurite/propagationContexte.puml)
