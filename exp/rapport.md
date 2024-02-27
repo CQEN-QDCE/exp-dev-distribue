@@ -87,7 +87,7 @@ Le contributeur de service interagit avec le Registre des services. Des services
 
 Le processus de publication obligerait de passer l’étape d’approbation avec succès avant d’invoquer le service de publication. Ce dernier pourrait être invoqué par l’orchestration du déploiement du service du contributeur par exemple. 
 
-En mettant ainsi à profit le modèle de communauté ouverte en libre-service, on vient assurer la prise en charge des développeurs avec un minimum de ressource humaine. Un gestionnaire de communauté peut assurer les interactions avec les développeurs de services, tandis que les mainteneurs du produit prennent connaissance des problématiques directement dans les outils de rapport de bogue. Le reste des interactions sont automatisés grâce à mise en disponibilité d’outils libre-service. 
+En mettant ainsi à profit le modèle de communauté ouverte en libre-service, on vient assurer la prise en charge des développeurs avec un minimum de ressource humaine. Un gestionnaire de communauté peut assurer les interactions avec les développeurs de services, tandis que les mainteneurs du produit prennent connaissance des problématiques directement dans les outils de rapport de bogue. Le reste des interactions sont automatisés grâce à la mise en disponibilité d’outils libre-service. 
 
 #### 4.1.2 Distribution du service 
 
@@ -175,11 +175,11 @@ Les outils disponibles pour développer des applications hybrides se divisent en
 
 * **Frameworks hybrides**
 
-    Les frameworks de développement hybrides ont été créé précisément pour concevoir des applications distribuables à la fois sur mobile sur le web. Ils utilisent dans la plupart des cas des langages de programmation qui ne sont pas basés sur l’écosystème javascript et utilisent un processus de compilation/transpilation pour créer un exécutable compatible avec la plateforme voulue.  
+    Les frameworks de développement hybrides ont été créé précisément pour concevoir des applications distribuables à la fois sur mobile et sur le web. Ils utilisent dans la plupart des cas des langages de programmation qui ne sont pas basés sur l’écosystème javascript et utilisent un processus de compilation/transpilation pour créer un exécutable compatible avec la plateforme voulue.  
 
     Leurs cas d’utilisations principaux est le développement applicatif avec interfaces qui se rapprochent le plus possible d’une expérience native. Cette spécialisation fait que ces frameworks se prêtent moins bien au développement de site ou de portail web. En effet, le rendu web (HTML/CSS/JS) étant le résultat d’une transpilation, il est difficile de contrôler le rendu final du portail et ainsi d’assurer une bonne compatibilité avec les standards du web ou encore d’assurer l’affinité avec les algorithmes de classement des moteurs de recherche.  
 
-    Les principaux frameworks de développement hybride sont[Flutter (Google)](https://flutter.dev/), [Blazor (Microsoft)](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) et [React Native for Web (Meta)](https://necolas.github.io/react-native-web/)	 
+    Les principaux frameworks de développement hybride sont: [Flutter (Google)](https://flutter.dev/), [Blazor (Microsoft)](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) et [React Native for Web (Meta)](https://necolas.github.io/react-native-web/)	 
 
 L’approche de la couche d’accès aux fonctionnalités natives, n’imposant pas de framework ou de langage de programmation et se prêtant bien à la mise en place d‘un portail web basé sur le standard web component est le choix qui cadrait le mieux pour l’expérimentation. Nous sommes donc aller de l’avant, pour le prototype d’application coquille, avec une approche web minimaliste développé en Typescript avec le support d’une librairie de support aux web component nommée Lit Element (https://lit.dev).  
 
@@ -264,7 +264,7 @@ import { AppComponent } from './app/app.component';
 })();
 ```
 
-On peut donc développer une application Angular selon les patrons habituels et inclure celle-ci en tant que *microfrontend*. Par contre l'expérimentation a permis de découvrir quelques particularités auxquels il faire attention lorsqu'on développe un composant dans le but de le distribuer vers notre application coquille.
+On peut donc développer une application Angular selon les patrons habituels et inclure celle-ci en tant que *microfrontend*. Par contre, l'expérimentation a permis de découvrir quelques particularités auxquelles il faut faire attention lorsqu'on développe un composant dans le but de le distribuer vers notre application coquille.
 
 Angular utilise déjà des éléments personnalisés pour ses composants. Même si ceux-ci ne sont pas convertis via le *package* `elements`, ils se retrouvent dans le document HTML et sont pris en charge par le framework. Il faut donc s'assurer que les éléments des composants n'entrent pas en collision avec ceux des *web components* présents dans le document. Pour éviter cela, il faut s'assurer de prefixer tous les composants et éléments d'un service avec un prefix unique.
 
@@ -285,7 +285,7 @@ export class FormulaireComponent {
 }
 ```
 
-Une application coquille à la base d'une application distribuée devraient donc régir les règles d'utilisation des API du navigateur. Ce contrôle peut s'effectuer soit en encapsulant les API permis aux composants contribué ou encore en effectuant des tests automatisés qui détecteraient des interactions non permises lors de la contribution d'une composant via l'API développeur.
+Une application coquille à la base d'une application distribuée devrait donc régir les règles d'utilisation des API du navigateur. Ce contrôle peut s'effectuer soit en encapsulant les API permis aux composants contribué ou encore en effectuant des tests automatisés qui détecteraient des interactions non permises lors de la contribution d'une composant via l'API développeur.
 
 Finalement, l'expérimentation s'est heurtée à l'absence d'outils pour empaqueter une application Angular en web component distribuable. Bien que le standard soit entièrement supporté, le compilateur Angular ne contient aucune option pour donner en sortie un composant sous forme d'un seul fichier pouvant faire l'objet d'une instruction `import` dans l'application coquille. Il a donc fallu ajouter aux commandes `npm` du projet un script qui effectue la concaténation des différents fichiers produit par le compilateur et s'assurer que celui-ci n'incluait pas de script externe au *web component*, comme des [librairies polyfills](https://developer.mozilla.org/fr/docs/Glossary/Polyfill) ou encore des dépendances externes.
 
@@ -297,7 +297,7 @@ La distribution de composantes *microfrontend* distribué doit être orchestrée
 
 Le registre des services est un API s'adressant aux contributeurs de services et à l'application coquille. Comme son nom l'indique, il tient un registre des services rendus disponibles sur la plateforme. D'un côté, les contributeurs utilisent l'API pour inscrire et mettre à jour leurs services. De l'autre l'application coquille obtient les informations sur les services et les distribuent en conséquence.
 
-Le registre n'a pas été implémenté dans le cadre de l'expérimentation. L'interaction de la coquille avec celui-ci a cependant été simulée grâce à [deux fichiers de données](../app/public/assets/registre). Ceux-ci explorent la structure de donnée d'un potentiel registre et sont obtenus par la coquille lors de son démarrage. La coquille d'adapte dynamiquement aux données du registre et permet l'ajout de services sans intervention dans son code.
+Le registre n'a pas été implémenté dans le cadre de l'expérimentation. L'interaction de la coquille avec celui-ci a cependant été simulée grâce à [deux fichiers de données](../app/public/assets/registre). Ceux-ci explorent la structure de donnée d'un potentiel registre et sont obtenus par la coquille lors de son démarrage. La coquille s'adapte dynamiquement aux données du registre et permet l'ajout de services sans intervention dans son code.
 
 Dans l’expérimentation, l’implémentation de l’application coquille elle-même a été réalisée dans une architecture logicielle basée sur les *web component*. La librairie javascript [Lit](https://lit.dev/) a été utilisé pour découper l’application en composants “locaux” et explorer le principe avant d’implémenter le prototype d‘un premier service distribué.
 
