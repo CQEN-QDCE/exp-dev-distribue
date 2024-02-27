@@ -497,7 +497,7 @@ L'hypothèse d'expérimentation avait comme objectif de vérifier si un modèle 
 * Un jugement favorable des conditions d’intégration au modèle par des contributeurs potentiels; 
 * Une démonstration que le modèle de développement peut se mettre à l’échelle d’une équipe produit fixe et soutenir un éventuel écosystème de contributeurs.  
 
-Il n’a pas été possible de présenter le modèle à d’éventuels contributeurs au moment d’écrire ce rapport. Ce marqueur n’a donc pas été vérifié. 
+Il n’a pas été possible de présenter le modèle à d’éventuels contributeurs au moment d’écrire ce rapport. Le deuxième marqueur n’a donc pas été vérifié. 
 
 ### 5.1 Démonstration du modèle avec un prototype web et un prototype mobile 
 
