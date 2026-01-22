@@ -19,7 +19,7 @@
     "@lit/task": "^1.0.0",
     "@types/lodash": "^4.14.202",
     "lit": "3.0.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "urlpattern-polyfill": "^9.0.0",
     "workbox-build": "^7.0.0",
     "workbox-core": "^7.0.0",
